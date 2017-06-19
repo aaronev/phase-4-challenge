@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const database = require('./database')
 const app = express()
-const fs = require(fs)
 
 require('ejs')
 app.set('view engine', 'ejs');
@@ -10,31 +9,35 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('/', (request, response) => {
+app.get('/', (req, res) => {
   database.getAlbums((error, albums) => {
     if (error) {
-      response.status(500).render('error', { error: error })
+      res.status(500).render('error', { error: error })
     } else {
-      response.render('index', { albums: albums })
+      res.render('index', { albums: albums })
     }
   })
 })
 
-app.get('/albums/:albumID', (request, response) => {
-  const albumID = request.params.albumID
+app.get('/users/:userID/albums/:albumID', (req, res) => {
+  res.send('hello')
+})
+
+app.get('/albums/:albumID', (req, res) => {
+  const albumID = req.params.albumID
 
   database.getAlbumsByID(albumID, (error, albums) => {
     if (error) {
-      response.status(500).render('error', { error: error })
+      res.status(500).render('error', { error: error })
     } else {
       const album = albums[0]
-      response.render('album', { album: album })
+      res.render('album', { album: album })
     }
   })
 })
 
-app.use((request, response) => {
-  response.status(404).render('not_found')
+app.get('/reviews', (req, res) => {
+  res.send('Reviews')
 })
 
 const port = process.env.PORT || 3000
