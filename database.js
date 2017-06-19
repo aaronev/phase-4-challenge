@@ -34,8 +34,13 @@ const getReviews = function(callback) {
   query("SELECT * FROM reviews", [], callback)
 }
 
+const getUsers = function(callback) {
+  query("SELECT * FROM users", [], callback)
+}
+
 module.exports = {
   getAlbums,
   getAlbumsByID,
-  getReviews
+  getReviews,
+  getUsers
 }

@@ -8,9 +8,9 @@ VALUES
 ;
 
 INSERT INTO
-  users (name, email)
+  users (name, email, password)
 VALUES
-  ('user1', 'user1@user1.com')
+  ('user1', 'user1@user1.com', 'user1pass')
 ;
 
 

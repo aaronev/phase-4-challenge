@@ -19,6 +19,21 @@ app.get('/', (req, res) => {
   })
 })
 
+app.get('/logIn', (req, res) => {
+  // database.getReviews((error, reviews) => {
+  //   if (error) {
+  //     res.status(500).send(error)
+  //   } else {
+  //     res.send(reviews)
+  //   }
+  // })
+  res.send('This is where you use passport bro')
+})
+
+app.get('/signUp', (req, res) => {
+  res.render('signUpForm')
+})
+
 app.get('/users/:userID/albums/:albumID', (req, res) => {
   res.send('hello')
 })
@@ -36,6 +51,8 @@ app.get('/albums/:albumID', (req, res) => {
   })
 })
 
+//API
+
 app.get('/reviews', (req, res) => {
   database.getReviews((error, reviews) => {
     if (error) {
@@ -46,7 +63,16 @@ app.get('/reviews', (req, res) => {
   })
 })
 
-app.post('/reviews' )
+app.get('/users', (req, res) => {
+  database.getUsers((error, reviews) => {
+    if (error) {
+      res.status(500).send(error)
+    } else {
+      res.send(reviews)
+    }
+  })
+})
+
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}...`)
