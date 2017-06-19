@@ -11,3 +11,11 @@ CREATE TABLE users (
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL
 );
+
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews (
+  id SERIAL,
+  user_id VARCHAR(255) NOT NULL,
+  album_id VARCHAR(255) NOT NULL,
+  review VARCHAR(255) NOT NULL
+);

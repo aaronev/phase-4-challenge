@@ -30,7 +30,12 @@ const getAlbumsByID = function(albumID, callback) {
   query("SELECT * FROM albums WHERE id = $1", [albumID], callback)
 }
 
+const getReviews = function(callback) {
+  query("SELECT * FROM reviews", [], callback)
+}
+
 module.exports = {
   getAlbums,
-  getAlbumsByID
+  getAlbumsByID,
+  getReviews
 }

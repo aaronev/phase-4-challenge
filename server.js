@@ -37,9 +37,16 @@ app.get('/albums/:albumID', (req, res) => {
 })
 
 app.get('/reviews', (req, res) => {
-  res.send('Reviews')
+  database.getReviews((error, reviews) => {
+    if (error) {
+      res.status(500).send(error)
+    } else {
+      res.send(reviews)
+    }
+  })
 })
 
+app.post('/reviews' )
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}...`)
