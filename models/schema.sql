@@ -10,7 +10,8 @@ CREATE TABLE users (
   id SERIAL,
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL,
+  timestamp TIMESTAMP DEFAULT current_timestamp
 );
 
 DROP TABLE IF EXISTS reviews;
