@@ -1,12 +1,12 @@
 <% include ./non-header %>
 
 <div class="sign-up">
-  <form>
+  <form method="post" action="/users">
     <legend>New User</legend>
-    <input type="text" placeholder ='Full Name'>
-    <input type="text" placeholder ='Email Address'>
-    <input type="text" placeholder ='Password'>
-    <input type="text" placeholder ='Image'>
+    <input type="text" name = 'name' placeholder ='Full Name'>
+    <input type="text" name = 'email' placeholder ='Email Address'>
+    <input type="text" name = 'password' placeholder ='Password'>
+    <input type="text" name = 'image' placeholder ='Image'>
     <input type="submit" placeholder ='Sign Up'>
   </form>
 </div>

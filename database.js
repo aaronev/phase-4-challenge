@@ -29,11 +29,21 @@ const getUserById = function(id) {
   return db.any(`SELECT * FROM users WHERE id = $1`, [id])
 }
 
+const addUser = function(name, email, password, image) {
+  return db.none(
+    `INSERT INTO 
+    users (name, email, password, image) 
+    VALUES
+    ($1, $2, $3, $4)`,
+     [name, email, password, image])
+}
+
 module.exports = {
   getAlbums,
   getAlbumsByID,
   getReviews,
   getUsers,
   getUserByEmailPassword,
-  getUserById
+  getUserById,
+  addUser
 }

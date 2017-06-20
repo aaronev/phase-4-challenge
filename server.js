@@ -37,6 +37,17 @@ app.get('/albums/:albumID', (req, res, next) => {
     .catch(next)
 })
 
+app.get('/user/:userId', (req, res, next) => {
+  if (isNaN(req.params.userId)) {
+    res.redirect('/login')
+  }
+  database.getUserById(req.params.userId)
+    .then(user => {
+      res.render('non-profile', {user: user[0]})
+    })
+    .catch(next)
+})
+
 //Authenticated Users
 
 app.post('/user', (req, res, next) => {
@@ -47,12 +58,12 @@ app.post('/user', (req, res, next) => {
     .then(user => {
       if (!user[0]) {res.redirect('/logIn')}
       const id = user[0].id
-      res.redirect(`/user/${id}`)
+      res.redirect(`/user/${email+password}/${id}`)
     })
     .catch(next)
 })
 
-app.get('/user/:userId', (req, res, next) => {
+app.get('/user/:emailPassword/:userId', (req, res, next) => {
   if (isNaN(req.params.userId)) {
     res.redirect('/login')
   }
@@ -67,6 +78,8 @@ app.get('/users/:userID/albums/:albumID', (req, res) => {
   res.send('hello')
 })
 
+
+
 //APIs
 
 app.get('/reviews', (req, res) => {
@@ -76,11 +89,22 @@ app.get('/reviews', (req, res) => {
   })
 })
 
-app.get('/users/', (req, res) => {
+app.get('/users', (req, res) => {
   database.getUsers()
   .then(users => {
     res.send(users)
   })
+})
+
+app.post('/users', (req, res) => {
+  const user = req.body
+  console.log(user)
+  database.addUser(user.name, user.email, user.password, user.image)
+  .then(users => {
+
+    res.redirect('/logIn')
+  })
+
 })
 
 const port = process.env.PORT || 3000
