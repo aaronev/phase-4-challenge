@@ -43,7 +43,10 @@ const addUser = function(name, email, password, image) {
 }
 
 const getReviewsByAlbumId = function(albumId) {
-  return db.any(`SELECT * FROM reviews WHERE album_id = $1 ORDER BY timestamp DESC`, [albumId])
+  return db.any(`SELECT * FROM reviews 
+    JOIN users on users.id = reviews.user_id 
+    JOIN albums on albums.id = reviews.album_id
+    WHERE album_id = $1 ORDER BY reviews.timestamp DESC`, [albumId])
 } 
 
 module.exports = {
