@@ -84,11 +84,19 @@ app.get('/user/:auth/:userId', (req, res, next) => {
 
 app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
   const albumID = req.params.albumID
+  const auth = req.params.auth
+  const userID = req.params.id
   database.getAlbumsByID(albumID)
     .then(album => {
       database.getReviewsByAlbumId(albumID)
       .then(reviews => {
-         res.render('user-album', { album: album[0], reviews: reviews})
+         res.render('user-album', { 
+          album: album[0], 
+          reviews: reviews, 
+          userID: userID,
+          albumID: albumID,
+          auth: auth
+        })
       })
     })
     .catch(next)
@@ -104,12 +112,26 @@ app.get('/reviews', (req, res) => {
 })
 
 app.post('/reviews', (req, res) => {
-  database.getReviews()
+  const auth = req.body.auth
+  const userID = req.body.user_id
+  const albumID = req.body.album_id
+  const review = req.body.review
+  database.addReview(userID, albumID, review)
   .then(reviews => {
-    res.send(reviews)
+    res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
   })
-    res.redirect('/')
 })
+
+// app.delete('/reviews', (req, res) => {
+//   const auth = req.body.auth
+//   const userID = req.body.user_id
+//   const albumID = req.body.album_id
+//   const review = req.body.review
+//   database.addReview(userID, albumID, review)
+//   .then(reviews => {
+//     res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
+//   })
+// })
 
 app.get('/users', (req, res) => {
   database.getUsers()

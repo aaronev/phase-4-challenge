@@ -49,6 +49,14 @@ const getReviewsByAlbumId = function(albumId) {
     WHERE album_id = $1 ORDER BY reviews.timestamp DESC`, [albumId])
 } 
 
+const addReview = function(userID, albumID, review) {
+   return db.none(
+    `INSERT INTO reviews (user_id, album_id, review)
+    VALUES ($1, $2, $3)`, 
+    [userID, albumID, review]
+  )
+}
+
 module.exports = {
   getAlbums,
   getAlbumsByID,
@@ -57,5 +65,6 @@ module.exports = {
   getUserByEmailPassword,
   getUserById,
   addUser,
-  getReviewsByAlbumId
+  getReviewsByAlbumId,
+  addReview
 }

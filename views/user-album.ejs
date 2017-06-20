@@ -28,10 +28,14 @@
   <div class="add-review">
     <form method="post" action="/reviews">
       <legend>Add Review</legend>
+      <input class="hide" name="user_id" value= <%= userID%>>
+      <input class="hide" name="auth" value= <%= auth%>>
+      <input class="hide" name="album_id" value= <%= albumID%>>
       <textarea name="review"></textarea>
-      <input type="submit" placeholder ='Sign Up'>
+      <input type="submit" value='Post'>
     </form>
   </div>
   
 </body>
 </html>
+  
