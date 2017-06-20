@@ -1,46 +1,39 @@
-const pg = require('pg')
-
+const pgp = require('pg-promise')()
 const dbName = 'vinyl'
 const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`
-const client = new pg.Client(connectionString)
+const db = pgp(connectionString)
 
-client.connect()
-
-// Query helper function
-const query = function(sql, variables, callback){
-  console.log('QUERY ->', sql.replace(/[\n\s]+/g, ' '), variables)
-
-  client.query(sql, variables, function(error, result){
-    if (error){
-      console.log('QUERY <- !!ERROR!!')
-      console.error(error)
-      callback(error)
-    }else{
-      console.log('QUERY <-', JSON.stringify(result.rows))
-      callback(error, result.rows)
-    }
-  })
+const getAlbums = function() {
+  return db.any("SELECT * FROM albums")
 }
 
-const getAlbums = function(callback) {
-  query("SELECT * FROM albums", [], callback)
+const getAlbumsByID = function(albumID) {
+  return db.any("SELECT * FROM albums WHERE id = $1", [albumID])
 }
 
-const getAlbumsByID = function(albumID, callback) {
-  query("SELECT * FROM albums WHERE id = $1", [albumID], callback)
+const getReviews = function() {
+  return db.any("SELECT * FROM reviews")
 }
 
-const getReviews = function(callback) {
-  query("SELECT * FROM reviews", [], callback)
+const getUsers = function() {
+  return db.any("SELECT * FROM users")
 }
 
-const getUsers = function(callback) {
-  query("SELECT * FROM users", [], callback)
+const getUserByEmailPassword = function(email, password) {
+  return db.any(`SELECT * FROM users 
+    WHERE email = $1 
+    AND password = $2`, [email, password])
+}
+
+const getUserById = function(id) {
+  return db.any(`SELECT * FROM users WHERE id = $1`, [id])
 }
 
 module.exports = {
   getAlbums,
   getAlbumsByID,
   getReviews,
-  getUsers
+  getUsers,
+  getUserByEmailPassword,
+  getUserById
 }

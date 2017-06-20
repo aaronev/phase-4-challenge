@@ -8,9 +8,9 @@ VALUES
 ;
 
 INSERT INTO
-  users (name, email, password)
+  users (name, email, password, image)
 VALUES
-  ('user1', 'user1@user1.com', 'user1pass')
+  ('user1', 'user1@user1.com', 'user1pass', 'http://d3adcc0j1hezoq.cloudfront.net/wp-content/uploads/2015/12/anonymous-ISIS-warning.jpg')
 ;
 
 
