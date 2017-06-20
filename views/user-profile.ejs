@@ -2,12 +2,13 @@
 
 <div class="sign-up">
   <h1><%= user.name %></h1>
-  <img width="150" height="100" src=<%= user.image %>>
+  <img width="150" height="150" src=<%= user.image %>>
   <h2> Email: <%= user.email %> </h2>
   <h4> Joined:  <%= user.timestamp %> </h4>
 </div>
 
 <div class="album-list">
+<h2>Albums</h2>
 <% albums.forEach(function(album) { %>
   <div>
     <h4><a href="albums/<%= album.id %>"><%= album.title %></a></h4>
@@ -15,3 +16,19 @@
   </div>
 <% }) %>
 </div>
+
+  <div class="review-list">
+	<h2>Your Reviews</h2>
+    <% reviews.forEach(function(review) { %>
+      <div>
+        <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
+        <p><%= review.review %></p>
+        <form method="post" action="/reviews/delete">
+        <input class="hide" name="id" value=<%= review.id%>>
+        <input class="hide" name="auth" value=<%= auth%>>
+        <input class="hide" name="userID" value=<%= review.user_id%>>
+        <input type=image src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png" width="30px">
+        </form>
+      </div>
+    <% }) %>
+  </div>

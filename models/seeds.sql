@@ -10,9 +10,9 @@ VALUES
 INSERT INTO
   users (name, email, password, image)
 VALUES
-  ('Aaron', 'aaron@aaron.com', 'aaron', 'http://d3adcc0j1hezoq.cloudfront.net/wp-content/uploads/2015/12/anonymous-ISIS-warning.jpg'),
-  ('Anonymous', 'anonmymous@anonymous.org', 'anonymous', 'http://d3adcc0j1hezoq.cloudfront.net/wp-content/uploads/2015/12/anonymous-ISIS-warning.jpg'),
-  ('John Doe', 'johndoe@johndoe.com', 'johndoe', 'http://d3adcc0j1hezoq.cloudfront.net/wp-content/uploads/2015/12/anonymous-ISIS-warning.jpg')
+  ('Aaron', 'aaron@aaron.com', 'aaron', 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Restless_flycatcher04.jpg'),
+  ('Anonymous', 'anonmymous@anonymous.org', 'anonymous', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/1200px-Anonymous_emblem.svg.png'),
+  ('John Doe', 'johndoe@johndoe.com', 'johndoe', 'http://u.o0bc.com/avatars/no-user-image.gif')
 ;
 
 

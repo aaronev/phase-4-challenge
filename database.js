@@ -4,11 +4,11 @@ const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/
 const db = pgp(connectionString)
 
 const getAlbums = function() {
-  return db.any("SELECT * FROM albums")
+  return db.any("SELECT * FROM albums;")
 }
 
 const getAlbumsByID = function(albumID) {
-  return db.any("SELECT * FROM albums WHERE id = $1", [albumID])
+  return db.any("SELECT * FROM albums WHERE id = $1;", [albumID])
 }
 
 const getReviews = function() {
@@ -20,17 +20,17 @@ const getReviews = function() {
 }
 
 const getUsers = function() {
-  return db.any("SELECT * FROM users")
+  return db.any("SELECT * FROM users;")
 }
 
 const getUserByEmailPassword = function(email, password) {
   return db.any(`SELECT * FROM users 
     WHERE email = $1 
-    AND password = $2`, [email, password])
+    AND password = $2;`, [email, password])
 }
 
 const getUserById = function(id) {
-  return db.any(`SELECT * FROM users WHERE id = $1`, [id])
+  return db.any(`SELECT * FROM users WHERE id = $1;`, [id])
 }
 
 const addUser = function(name, email, password, image) {
@@ -38,7 +38,7 @@ const addUser = function(name, email, password, image) {
     `INSERT INTO 
     users (name, email, password, image) 
     VALUES
-    ($1, $2, $3, $4)`,
+    ($1, $2, $3, $4);`,
      [name, email, password, image])
 }
 
@@ -46,17 +46,30 @@ const getReviewsByAlbumId = function(albumId) {
   return db.any(`SELECT * FROM reviews 
     JOIN users on users.id = reviews.user_id 
     JOIN albums on albums.id = reviews.album_id
-    WHERE album_id = $1 ORDER BY reviews.timestamp DESC`, [albumId])
+    WHERE album_id = $1 ORDER BY reviews.timestamp DESC;`, [albumId])
 } 
 
 const addReview = function(userID, albumID, review) {
    return db.none(
     `INSERT INTO reviews (user_id, album_id, review)
-    VALUES ($1, $2, $3)`, 
-    [userID, albumID, review]
-  )
+    VALUES ($1, $2, $3);`, 
+    [userID, albumID, review])
 }
 
+const getReviewsByUserID = function(userID) {
+    return db.any(`SELECT * FROM reviews 
+    JOIN users on users.id = reviews.user_id 
+    JOIN albums on albums.id = reviews.album_id
+    WHERE user_id = $1 ORDER BY reviews.timestamp DESC;`, [userID])
+}
+
+const deleteReviewByID = function(id, userID) {
+  return db.none(`DELETE FROM reviews WHERE id = $1 AND user_id = $2;`, [id, userID]);
+}
+
+const getReviewsById = function(id) {
+  return db.any(`SELECT * FROM reviews WHERE id = $1`, [id])
+}
 module.exports = {
   getAlbums,
   getAlbumsByID,
@@ -66,5 +79,8 @@ module.exports = {
   getUserById,
   addUser,
   getReviewsByAlbumId,
-  addReview
+  addReview,
+  getReviewsByUserID,
+  deleteReviewByID,
+  getReviewsById
 }

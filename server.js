@@ -68,16 +68,24 @@ app.post('/user', (req, res, next) => {
     .catch(next)
 })
 
-app.get('/user/:auth/:userId', (req, res, next) => {
+app.get('/user/:auth/:userId/', (req, res, next) => {
   if (isNaN(req.params.userId)) {
     res.redirect('/login')
   }
   database.getUserById(req.params.userId)
     .then(user => {
       database.getAlbums()
-        .then(albums => {
-           res.render('user-profile', {albums: albums, user: user[0]})
+      .then(albums => {
+        database.getReviewsByUserID(req.params.userId)
+        .then(reviews => {
+          res.render('user-profile', {
+          albums: albums, 
+          user: user[0],
+          reviews: reviews,
+          auth: req.params.auth
+          })            
         })
+      })
     })
     .catch(next)
 })
@@ -90,7 +98,7 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
     .then(album => {
       database.getReviewsByAlbumId(albumID)
       .then(reviews => {
-         res.render('user-album', { 
+        res.render('user-album', { 
           album: album[0], 
           reviews: reviews, 
           userID: userID,
@@ -115,23 +123,34 @@ app.post('/reviews', (req, res) => {
   const auth = req.body.auth
   const userID = req.body.user_id
   const albumID = req.body.album_id
-  const review = req.body.review
-  database.addReview(userID, albumID, review)
-  .then(reviews => {
-    res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
+  const review = req.body.review || null
+  if (review !== null) {
+    database.addReview(userID, albumID, review)
+    .then(reviews => {
+      res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
+    })
+  }
+  res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
+})
+
+app.get('/reviews/:id', (req, res) => {
+  const id = req.params.id
+  database.getReviewsById(id)
+  .then(review => {
+    res.send(review)
   })
 })
 
-// app.delete('/reviews', (req, res) => {
-//   const auth = req.body.auth
-//   const userID = req.body.user_id
-//   const albumID = req.body.album_id
-//   const review = req.body.review
-//   database.addReview(userID, albumID, review)
-//   .then(reviews => {
-//     res.redirect(`/user/${auth}/${userID}/albums/${albumID}`)
-//   })
-// })
+app.post('/reviews/delete', (req, res) => {
+  console.log(req.body)
+  const auth = req.body.auth
+  const id = req.body.id
+  const userID = req.body.userID
+  database.deleteReviewByID(id, userID)
+  .then( deleted => {
+    res.redirect(`/user/${auth}/${userID}/`)
+  })
+})
 
 app.get('/users', (req, res) => {
   database.getUsers()
