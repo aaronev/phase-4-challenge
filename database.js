@@ -12,7 +12,11 @@ const getAlbumsByID = function(albumID) {
 }
 
 const getReviews = function() {
-  return db.any("SELECT * FROM reviews")
+  return db.any(
+    `SELECT * FROM reviews 
+    JOIN users on users.id = reviews.user_id 
+    JOIN albums on albums.id = reviews.album_id
+    ORDER BY reviews.timestamp DESC LIMIT 3;`)
 }
 
 const getUsers = function() {
@@ -38,6 +42,10 @@ const addUser = function(name, email, password, image) {
      [name, email, password, image])
 }
 
+const getReviewsByAlbumId = function(albumId) {
+  return db.any(`SELECT * FROM reviews WHERE album_id = $1 ORDER BY timestamp DESC`, [albumId])
+} 
+
 module.exports = {
   getAlbums,
   getAlbumsByID,
@@ -45,5 +53,6 @@ module.exports = {
   getUsers,
   getUserByEmailPassword,
   getUserById,
-  addUser
+  addUser,
+  getReviewsByAlbumId
 }

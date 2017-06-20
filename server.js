@@ -15,7 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (req, res, next) => {
   database.getAlbums()
   .then(albums => {
-    res.render('index', { albums: albums })
+    database.getReviews() 
+    .then(reviews => {
+      console.log(reviews)
+      res.render('index', { albums: albums, reviews: reviews})
+    })
   })
   .catch(next)
 })
@@ -32,7 +36,10 @@ app.get('/albums/:albumID', (req, res, next) => {
   const albumID = req.params.albumID
   database.getAlbumsByID(albumID)
     .then(album => {
-      res.render('non-album', { album: album[0] })
+      database.getReviewsByAlbumId(albumID)
+      .then(reviews => {
+         res.render('non-album', { album: album[0], reviews: reviews})
+      })
     })
     .catch(next)
 })
@@ -101,7 +108,6 @@ app.post('/users', (req, res) => {
   console.log(user)
   database.addUser(user.name, user.email, user.password, user.image)
   .then(users => {
-
     res.redirect('/logIn')
   })
 
