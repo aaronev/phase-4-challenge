@@ -1,13 +1,15 @@
 <% include ./user-header %>
+<link rel="stylesheet" type="text/css" href="/style.css">
 
-<div class="sign-up">
-  <h1><%= user.name %></h1>
+<div class="profile-info navbar navbar-default container">
+  <h2><%= user.name %></h2>
   <img width="150" height="150" src=<%= user.image %>>
-  <h2> Email: <%= user.email %> </h2>
-  <h4> Joined:  <%= user.timestamp %> </h4>
-</div>
+  <h4> Email: <%= user.email %> </h4>
+  <h5> Joined:  <%= user.timestamp %> </h5>
 
-<div class="album-list">
+
+<div class="album-list navbar navbar-default">
+<div class="pull-left">
 <h2>Albums</h2>
 <% albums.forEach(function(album) { %>
   <div>
@@ -17,8 +19,9 @@
 <% }) %>
 </div>
 
-  <div class="review-list">
-	<h2>Your Reviews</h2>
+
+<div class="review-list pull-right">
+  <h2>Your Reviews</h2>
     <% reviews.forEach(function(review) { %>
       <div>
         <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
@@ -32,3 +35,7 @@
       </div>
     <% }) %>
   </div>
+</div>
+</div>
+
+<% include ./footer %>

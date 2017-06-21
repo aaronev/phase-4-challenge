@@ -4,3 +4,23 @@ html, body {
   width: 100vw;
   text-align: center;
 }
+
+.profile-info {
+  background-color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.album-list {
+  padding: 10px;
+}
+
+.add-review {
+  display: none;
+}
+
+.paragraph {
+  text-align: justify;
+  padding: 20px;
+  font-size: 15px;
+}

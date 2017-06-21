@@ -1,31 +1,14 @@
 <!DOCTYPE html>
-<html>
 <head>
-  <title>Vinyl : <%= album.title %></title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  <script type="text/javascript" src="/script.js"></script>
-  <% include ./user-header %>
 </head>
-<body>
 
+<% include ./user-header %>
+  
   <h2><%= album.title %></h2>
   <em>by <%= album.artist %></em>
 
-  <h3>Reviews</h3>
-
-  <button>Add Review</button>
-
-  <div class="review-list">
-    <% reviews.forEach(function(review) { %>
-      <div>
-        <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
-        <h6><%= review.timestamp%></h6>
-        </p><%= review.review %></p>
-        <h5><a href="/user/<%= review.user_id %>"><%= review.name %></a></h5>
-      </div>
-    <% }) %>
-  </div>
-  <div class="add-review">
+    <div class="add-review">
     <form method="post" action="/reviews">
       <legend>Add Review</legend>
       <input class="hide" name="user_id" value= <%= userID%>>
@@ -34,8 +17,26 @@
       <textarea name="review"></textarea>
       <input type="submit" value='Post'>
     </form>
+    <button onclick ="hideAddForm()" class="cancel" >Cancel</button>
   </div>
-  
-</body>
-</html>
+
+  <h3>Reviews</h3>
+
+  <button onclick="showAddForm()">Add Review</button>
+
+  <div class="review-list container">
+    <% reviews.forEach(function(review) { %>
+      <div class="nav container">
+      <ul class="nav navbar navbar-default">
+        <li><h5 class="pull-left"><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h5></li>
+        <li><h6 class="pull-right"><%= review.timestamp%></h6></li>
+        <li><h4 class="paragraph"><%= review.review %></h4></li>
+        <li><h5 class="pull-right"><a href="/user/<%= review.user_id %>"><%= review.name %></a></h5></li>
+      </ul>
+      </div>
+    <% }) %>
+  </div>
+
+<script type="text/javascript" src="/script.js"></script>
+<% include ./footer %>  
   
