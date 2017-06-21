@@ -22,12 +22,16 @@ app.get('/', (req, res, next) => {
   .catch(next)
 })
 
-app.get('/logIn', (req, res) => {
-  res.render('user-login')
-})
-
 app.get('/signUp', (req, res) => {
   res.render('non-signUpForm')
+})
+
+app.get('/verify-user', (req, res) => {
+  res.render('user-new-verify')
+})
+
+app.get('/logIn', (req, res) => {
+  res.render('user-login')
 })
 
 app.get('/albums/:albumID', (req, res, next) => {
@@ -48,17 +52,17 @@ app.get('/user/:userId', (req, res, next) => {
   }
   database.getUserById(req.params.userId)
   .then(user => {
-      database.getReviewsByUserID(req.params.userId)
-      .then(reviews => {
-        res.render('non-profile', {
-        user: user[0],
-        reviews: reviews,
-        auth: req.params.auth,
-        userID: req.params.userId
-        })            
-      })
+    database.getReviewsByUserID(req.params.userId)
+    .then(reviews => {
+      res.render('non-profile', {
+      user: user[0],
+      reviews: reviews,
+      auth: req.params.auth,
+      userID: req.params.userId
+      })            
     })
-    .catch(next)
+  })
+  .catch(next)
 })
 
 //Authenticated Users
@@ -67,16 +71,14 @@ app.post('/email-availabilty', (req, res, next) => {
   const user = req.body
   const email = user.email || null
   const password = user.password || null
-  console.log('email', email)
   database.verifyEmail(req.body.email)
   .then(anEmail => {
-    console.log(anEmail,"))))))))))))))))))))))))))))")
     if(anEmail.length !== 0) {res.render('error-signup')}
     else if (user.email && password) {
-    database.addUser(user.name, user.email, user.password, user.image)
-    .then(users => {
-      res.redirect('/verify-user')
-    })
+      database.addUser(user.name, user.email, user.password, user.image)
+      .then(users => {
+        res.redirect('/verify-user')
+      })
     }
     else res.redirect('/signUp')
   })
@@ -101,7 +103,6 @@ app.post('/user', (req, res, next) => {
   database.getUserByEmailPassword(email, password)
   .then(user => {
     if (!user[0]) {res.redirect('/logIn')}
-      console.log(user[0])
     const id = user[0].id
     res.redirect(`/user/${email+password}/${id}/`)
   })
@@ -136,48 +137,44 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
   const auth = req.params.auth
   const userID = req.params.id
   database.getAlbumsByID(albumID)
-    .then(album => {
-      database.getReviewsByAlbumId(albumID)
-      .then(reviews => {
-       database.getMoreReviews()
-       .then(reviewID => {
-          res.render('user-album', { 
-          album: album[0], 
-          reviews: reviews, 
-          userID: userID,
-          albumID: albumID,
-          reviewID: reviewID,
-          auth: auth
-        })
-       })
-  
+  .then(album => {
+    database.getReviewsByAlbumId(albumID)
+    .then(reviews => {
+     database.getMoreReviews()
+     .then(reviewID => {
+        res.render('user-album', { 
+        album: album[0], 
+        reviews: reviews, 
+        userID: userID,
+        albumID: albumID,
+        reviewID: reviewID,
+        auth: auth
       })
+     })
     })
-    .catch(next)
+  })
+  .catch(next)
 })
 
-
 app.post('/user/:auth/:userId/delete', (req, res, next) => {
-  console.log(req.body)
-  console.log(req.body.reviewID)
   database.getUserById(req.params.userId)
-    .then(user => {
-      database.getAlbums()
-      .then(albums => {
-        database.getReviewsByUserID(req.params.userId)
-        .then(reviews => {
-          res.render('verify-delete', {
-          albums: albums, 
-          user: user[0],
-          reviews: reviews,
-          auth: req.params.auth,
-          userID: req.params.userId,
-          deleteReview: req.body.reviewID
-          })            
-        })
+  .then(user => {
+    database.getAlbums()
+    .then(albums => {
+      database.getReviewsByUserID(req.params.userId)
+      .then(reviews => {
+        res.render('verify-delete', {
+        albums: albums, 
+        user: user[0],
+        reviews: reviews,
+        auth: req.params.auth,
+        userID: req.params.userId,
+        deleteReview: req.body.reviewID
+        })            
       })
     })
-    .catch(next)
+  })
+  .catch(next)
 })
 
 //APIs
@@ -226,10 +223,6 @@ app.get('/users', (req, res) => {
   .then(users => {
     res.send(users)
   })
-})
-
-app.get('/verify-user', (req, res) => {
-  res.render('user-new-verify')
 })
 
 app.get('/users', (req, res) => {
