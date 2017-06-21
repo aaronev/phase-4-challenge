@@ -35,6 +35,10 @@ const getUserByEmailPassword = function(email, password) {
     AND password = $2;`, [email, password])
 }
 
+const verifyEmail = function(email) {
+  return db.any(`SELECT * FROM users WHERE email = $1;`, [email])
+}
+
 const getUserById = function(id) {
   return db.any(`SELECT * FROM users WHERE id = $1;`, [id])
 }
@@ -102,5 +106,6 @@ module.exports = {
   findUserByEmail,
   getMoreReviews,
   getReviewsTest,
-  deleteReviewByReview
+  deleteReviewByReview,
+  verifyEmail
 }

@@ -63,6 +63,38 @@ app.get('/user/:userId', (req, res, next) => {
 
 //Authenticated Users
 
+app.post('/email-availabilty', (req, res, next) => {
+  const user = req.body
+  const email = user.email || null
+  const password = user.password || null
+  console.log('email', email)
+  database.verifyEmail(req.body.email)
+  .then(anEmail => {
+    console.log(anEmail,"))))))))))))))))))))))))))))")
+    if(anEmail.length !== 0) {res.render('error-signup')}
+    else if (user.email && password) {
+    database.addUser(user.name, user.email, user.password, user.image)
+    .then(users => {
+      res.redirect('/verify-user')
+    })
+    }
+    else res.redirect('/signUp')
+  })
+})
+
+app.post('/users', (req, res) => {
+  const user = req.body
+  const email = user.email || null
+  const password = user.password || null
+  if (user.email && password) {
+    database.addUser(user.name, user.email, user.password, user.image)
+    .then(users => {
+      res.redirect('/verify-user')
+    })
+  }
+  else res.redirect('/signUp')
+})
+
 app.post('/user', (req, res, next) => {
   const email = req.body.email
   const password = req.body.password
@@ -146,14 +178,13 @@ app.get('/user/:auth/:userId/delete', (req, res, next) => {
 
 //APIs
 
-// app.get('/test/:id', (req, res) => {
- 
-//   .then(deleted => {
-//     console.log('its been dleteasdfd')
-//     res.redirect('/reviews')
-//   })
-// })
+app.post('/test', (req, res) => {
+  database.verifyEmail(req.body.email)
+  .then(email => {
+    res.send(email)
+  })
 
+})
 app.get('/user/:auth/:userID/delete/:reviewID', (req, res) => {
   const reviewID = req.params.reviewID
   const auth = req.params.auth
@@ -175,7 +206,7 @@ app.post('/reviews', (req, res) => {
   const auth = req.body.auth
   const userID = req.body.user_id
   const albumID = req.body.album_id
-  const review = `"${req.body.review}"` || null
+  const review = req.body.review || null
   if (review !== null) {
     database.addReview(userID, albumID, review)
     .then(reviews => {
@@ -210,14 +241,25 @@ app.get('/users', (req, res) => {
   })
 })
 
+app.get('/verify-user', (req, res) => {
+  res.render('user-new-verify')
+})
+
+app.get('/users', (req, res) => {
+  database.verifyEmail(req.body.email)
+  .then(email => {
+    res.render('error-signup')
+  })  
+})
+
 app.post('/users', (req, res) => {
   const user = req.body
   const email = user.email || null
   const password = user.password || null
-  if (email && password) {
+  if (user.email && password) {
     database.addUser(user.name, user.email, user.password, user.image)
     .then(users => {
-      res.redirect('/logIn')
+      res.redirect('/verify-user')
     })
   }
   else res.redirect('/signUp')
