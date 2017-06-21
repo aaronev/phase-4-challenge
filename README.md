@@ -21,13 +21,15 @@ server.js           # web server
 views/              # html templates go here
 ```
 
-### Setting Up Your Database
+### Setting Up Your Database and Loging In
 
 Use the following commands to set up and seed your database:
 
 1. Create PostgreSQL database `vinyl`: `$ npm run db:create`
 1. Set up database tables from `schema.sql`: `$ npm run db:schema`
 1. Load seed datas from `seeds.sql`: `$ npm run db:seed`
+1. Sign up or log in using email: anonymous@anonymouse.org password: anonymouse
+
 # phase-4-challenge
 
 # Phase 4 Interview Challenge

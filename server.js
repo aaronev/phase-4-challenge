@@ -177,6 +177,25 @@ app.post('/user/:auth/:userId/delete', (req, res, next) => {
   .catch(next)
 })
 
+app.get('/user/:auth/:userId/view/:Id', (req, res, next) => {
+  if (isNaN(req.params.userId)) {
+    res.redirect('/login')
+  }
+  database.getUserById(req.params.Id)
+  .then(user => {
+    database.getReviewsByUserID(req.params.userId)
+    .then(reviews => {
+      res.render('user-view-profile', {
+      user: user[0],
+      reviews: reviews,
+      auth: req.params.auth,
+      userID: req.params.userId,
+      })            
+    })
+  })
+  .catch(next)
+})
+
 //APIs
 
 app.get('/user/:auth/:userID/delete/:reviewID', (req, res) => {
