@@ -2,4 +2,35 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100vw;
+  text-align: center;
+}
+
+.profile-info {
+  background-color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.album-list {
+  padding: 10px;
+}
+
+.add-review {
+  display: none;
+}
+
+.paragraph {
+  text-align: justify;
+  padding: 20px;
+  font-size: 15px;
+}
+
+.verify-delete {
+  position: fixed;
+  top: 40%;
+  right: 25%;
+  text-align: center;
+  border: solid;
+  width: 50%;
+  background-color: white;
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+
+<% include ./user-header %>
+  
+  <h2><%= album.title %></h2>
+  <em>by <%= album.artist %></em>
+
+    <div class="add-review">
+    <form method="post" action="/reviews">
+      <legend>Add Review</legend>
+      <input class="hide" name="user_id" value= <%= userID%>>
+      <input class="hide" name="auth" value= <%= auth%>>
+      <input class="hide" name="album_id" value= <%= albumID%>>
+      <textarea name="review"></textarea>
+      <input type="submit" value='Post'>
+    </form>
+    <button onclick ="hideAddForm()" class="cancel" >Cancel</button>
+  </div>
+
+  <h3>Reviews</h3>
+
+  <button onclick="showAddForm()">Add Review</button>
+
+  <div class="review-list container">
+    <% reviews.forEach(function(review) { %>
+      <div class="nav container">
+      <ul class="nav navbar navbar-default">
+        <li><h5 class="pull-left"><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h5></li>
+        <li><h6 class="pull-right"><%= review.timestamp%></h6></li>
+        <li><h4 class="paragraph"><%= review.review %></h4></li>
+        <li><h5 class="pull-right"><a href="/user/<%= review.user_id %>"><%= review.name %></a></h5></li>
+        <input class="reviewID hide" value= <%=review.id%>>
+      </ul>
+      </div>
+    <% }) %>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>
