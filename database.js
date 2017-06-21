@@ -21,7 +21,10 @@ const getReviews = function() {
 
 const getMoreReviews = function() {
   return db.any(
-    `SELECT * FROM reviews`
+    `SELECT * FROM reviews 
+    JOIN users on users.id = reviews.user_id 
+    JOIN albums on albums.id = reviews.album_id
+    ORDER BY reviews.timestamp DESC;`
     )
 }
 const getUsers = function() {

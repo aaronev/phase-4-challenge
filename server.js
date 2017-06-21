@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const database = require('./database')
+const request = require('request')
 const app = express()
 
 require('ejs')
@@ -98,6 +99,7 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
     .then(album => {
       database.getReviewsByAlbumId(albumID)
       .then(reviews => {
+        console.log('reviews',reviews)
         res.render('user-album', { 
           album: album[0], 
           reviews: reviews, 
@@ -147,7 +149,7 @@ app.post('/reviews/delete', (req, res) => {
   const id = req.body.id
   const userID = req.body.userID
   database.deleteReviewByID(id, userID)
-  .then( deleted => {
+  .then( () => {
     res.redirect(`/user/${auth}/${userID}/`)
   })
 })

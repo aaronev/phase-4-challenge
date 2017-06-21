@@ -23,16 +23,16 @@
 <div class="review-list pull-right">
   <h2>Your Reviews</h2>
     <% reviews.forEach(function(review) { %>
+     <form method="post" action="/reviews/delete">
       <div>
         <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
         <p><%= review.review %></p>
-        <form method="post" action="/reviews/delete">
         <input class="hide" name="id" value=<%= review.id%>>
         <input class="hide" name="auth" value=<%= auth%>>
         <input class="hide" name="userID" value=<%= review.user_id%>>
-        <input class="trash" type=image src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png" width="30px">
-        </form>
+        <input class="trash" value=<%= review.user_id%> type=image src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png" width="30px">
       </div>
+    </form>
     <% }) %>
     </div>
   </div>
