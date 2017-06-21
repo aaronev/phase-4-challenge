@@ -116,7 +116,7 @@ app.get('/user/:auth/:userId/', (req, res, next) => {
     .then(user => {
       database.getAlbums()
       .then(albums => {
-        database.getMoreReviews(req.params.userId)
+        database.getReviewsByUserID(req.params.userId)
         .then(reviews => {
           res.render('user-profile', {
           albums: albums, 
