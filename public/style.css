@@ -24,3 +24,13 @@ html, body {
   padding: 20px;
   font-size: 15px;
 }
+
+.verify-delete {
+  position: fixed;
+  top: 40%;
+  right: 25%;
+  text-align: center;
+  border: solid;
+  width: 50%;
+  background-color: white;
+}

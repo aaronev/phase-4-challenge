@@ -21,10 +21,8 @@ const getReviews = function() {
 
 const getMoreReviews = function() {
   return db.any(
-    `SELECT * FROM reviews 
-    JOIN users on users.id = reviews.user_id 
-    JOIN albums on albums.id = reviews.album_id
-    ORDER BY reviews.timestamp DESC;`
+    `SELECT * FROM reviews
+    ORDER BY reviews.timestamp DESC`
     )
 }
 const getUsers = function() {
@@ -66,13 +64,11 @@ const addReview = function(userID, albumID, review) {
 
 const getReviewsByUserID = function(userID) {
     return db.any(`SELECT * FROM reviews 
-    JOIN users on users.id = reviews.user_id 
-    JOIN albums on albums.id = reviews.album_id
     WHERE user_id = $1 ORDER BY reviews.timestamp DESC;`, [userID])
 }
 
-const deleteReviewByID = function(id, userID) {
-  return db.none(`DELETE FROM reviews WHERE id = $1 AND user_id = $2;`, [id, userID]);
+const deleteReviewByID = function(id) {
+  return db.none(`DELETE FROM reviews WHERE id = $1;`, [id]);
 }
 
 const getReviewsById = function(id) {
@@ -81,7 +77,14 @@ const getReviewsById = function(id) {
 
 const findUserByEmail = function(email) {
   return db.any(`SELECT * FROM users WHERE email = $1`, [email])
+}
 
+const getReviewsTest = function() {
+  return db.any(`SELECT * FROM reviews ORDER BY timestamp DESC`)
+}
+
+const deleteReviewByReview = function(review) {
+  return db.none(`DELETE FROM reviews WHERE review = $1;`, [review]);
 }
 module.exports = {
   getAlbums,
@@ -97,5 +100,7 @@ module.exports = {
   deleteReviewByID,
   getReviewsById,
   findUserByEmail,
-  getMoreReviews
+  getMoreReviews,
+  getReviewsTest,
+  deleteReviewByReview
 }

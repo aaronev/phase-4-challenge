@@ -1,12 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const database = require('./database')
-const request = require('request')
 const app = express()
 
 require('ejs')
 app.set('view engine', 'ejs');
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -49,8 +47,16 @@ app.get('/user/:userId', (req, res, next) => {
     res.redirect('/login')
   }
   database.getUserById(req.params.userId)
-    .then(user => {
-      res.render('non-profile', {user: user[0]})
+  .then(user => {
+      database.getReviewsByUserID(req.params.userId)
+      .then(reviews => {
+        res.render('non-profile', {
+        user: user[0],
+        reviews: reviews,
+        auth: req.params.auth,
+        userID: req.params.userId
+        })            
+      })
     })
     .catch(next)
 })
@@ -77,13 +83,14 @@ app.get('/user/:auth/:userId/', (req, res, next) => {
     .then(user => {
       database.getAlbums()
       .then(albums => {
-        database.getReviewsByUserID(req.params.userId)
+        database.getMoreReviews(req.params.userId)
         .then(reviews => {
           res.render('user-profile', {
           albums: albums, 
           user: user[0],
           reviews: reviews,
-          auth: req.params.auth
+          auth: req.params.auth,
+          userID: req.params.userId
           })            
         })
       })
@@ -99,13 +106,38 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
     .then(album => {
       database.getReviewsByAlbumId(albumID)
       .then(reviews => {
-        console.log('reviews',reviews)
-        res.render('user-album', { 
+       database.getMoreReviews()
+       .then(reviewID => {
+          res.render('user-album', { 
           album: album[0], 
           reviews: reviews, 
           userID: userID,
           albumID: albumID,
+          reviewID: reviewID,
           auth: auth
+        })
+       })
+  
+      })
+    })
+    .catch(next)
+})
+
+
+app.get('/user/:auth/:userId/delete', (req, res, next) => {
+  database.getUserById(req.params.userId)
+    .then(user => {
+      database.getAlbums()
+      .then(albums => {
+        database.getReviewsByUserID(req.params.userId)
+        .then(reviews => {
+          res.render('verify-delete', {
+          albums: albums, 
+          user: user[0],
+          reviews: reviews,
+          auth: req.params.auth,
+          userID: req.params.userId
+          })            
         })
       })
     })
@@ -113,6 +145,24 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
 })
 
 //APIs
+
+// app.get('/test/:id', (req, res) => {
+ 
+//   .then(deleted => {
+//     console.log('its been dleteasdfd')
+//     res.redirect('/reviews')
+//   })
+// })
+
+app.get('/user/:auth/:userID/delete/:reviewID', (req, res) => {
+  const reviewID = req.params.reviewID
+  const auth = req.params.auth
+  const userID = req.params.userID
+  database.deleteReviewByID(reviewID)
+  .then(() => {
+    res.redirect(`/user/${auth}/${userID}/`)
+  })
+})
 
 app.get('/reviews', (req, res) => {
   database.getMoreReviews()
@@ -125,7 +175,7 @@ app.post('/reviews', (req, res) => {
   const auth = req.body.auth
   const userID = req.body.user_id
   const albumID = req.body.album_id
-  const review = req.body.review || null
+  const review = `"${req.body.review}"` || null
   if (review !== null) {
     database.addReview(userID, albumID, review)
     .then(reviews => {
@@ -144,7 +194,6 @@ app.get('/reviews/:id', (req, res) => {
 })
 
 app.post('/reviews/delete', (req, res) => {
-  console.log(req.body)
   const auth = req.body.auth
   const id = req.body.id
   const userID = req.body.userID
