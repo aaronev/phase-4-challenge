@@ -101,6 +101,7 @@ app.post('/user', (req, res, next) => {
   database.getUserByEmailPassword(email, password)
   .then(user => {
     if (!user[0]) {res.redirect('/logIn')}
+      console.log(user[0])
     const id = user[0].id
     res.redirect(`/user/${email+password}/${id}/`)
   })
