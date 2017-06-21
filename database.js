@@ -19,6 +19,11 @@ const getReviews = function() {
     ORDER BY reviews.timestamp DESC LIMIT 3;`)
 }
 
+const getMoreReviews = function() {
+  return db.any(
+    `SELECT * FROM reviews`
+    )
+}
 const getUsers = function() {
   return db.any("SELECT * FROM users;")
 }
@@ -70,6 +75,11 @@ const deleteReviewByID = function(id, userID) {
 const getReviewsById = function(id) {
   return db.any(`SELECT * FROM reviews WHERE id = $1`, [id])
 }
+
+const findUserByEmail = function(email) {
+  return db.any(`SELECT * FROM users WHERE email = $1`, [email])
+
+}
 module.exports = {
   getAlbums,
   getAlbumsByID,
@@ -82,5 +92,7 @@ module.exports = {
   addReview,
   getReviewsByUserID,
   deleteReviewByID,
-  getReviewsById
+  getReviewsById,
+  findUserByEmail,
+  getMoreReviews
 }

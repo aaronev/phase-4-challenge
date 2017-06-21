@@ -32,11 +32,14 @@
         <li><h6 class="pull-right"><%= review.timestamp%></h6></li>
         <li><h4 class="paragraph"><%= review.review %></h4></li>
         <li><h5 class="pull-right"><a href="/user/<%= review.user_id %>"><%= review.name %></a></h5></li>
+        <input class="reviewID hide" value= <%=review.id%>>
+        <input class="trash userID pull-left" value= <%=review.user_id%>  class="trash pull-left" type=image src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png" width="30px">
       </ul>
       </div>
     <% }) %>
   </div>
 
-<script type="text/javascript" src="/script.js"></script>
-<% include ./footer %>  
-  
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>

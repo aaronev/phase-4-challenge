@@ -4,7 +4,7 @@
   <form method="post" action="/users">
     <legend>New User</legend>
     <ul class="nav">
-    <p>Email address already exist.</p>
+    <p><%= email %> already exist.</p>
     <li><input type="text" name = 'name' placeholder ='Full Name'></li>
     <li><input type="text" name = 'email' placeholder ='Email Address'></li>
     <li><input type="text" name = 'password' placeholder ='Password'></li>
@@ -14,4 +14,7 @@
   </form>
 </div>
 
-<% include ./footer %>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>

@@ -60,12 +60,12 @@ app.post('/user', (req, res, next) => {
   const email = req.body.email
   const password = req.body.password
   database.getUserByEmailPassword(email, password)
-    .then(user => {
-      if (!user[0]) {res.redirect('/logIn')}
-      const id = user[0].id
-      res.redirect(`/user/${email+password}/${id}/`)
-    })
-    .catch(next)
+  .then(user => {
+    if (!user[0]) {res.redirect('/logIn')}
+    const id = user[0].id
+    res.redirect(`/user/${email+password}/${id}/`)
+  })
+  .catch(next)
 })
 
 app.get('/user/:auth/:userId/', (req, res, next) => {
@@ -113,7 +113,7 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
 //APIs
 
 app.get('/reviews', (req, res) => {
-  database.getReviews()
+  database.getMoreReviews()
   .then(reviews => {
     res.send(reviews)
   })
@@ -161,11 +161,15 @@ app.get('/users', (req, res) => {
 
 app.post('/users', (req, res) => {
   const user = req.body
-  database.addUser(user.name, user.email, user.password, user.image)
-  .then(users => {
-    res.redirect('/logIn')
-  })
-
+  const email = user.email || null
+  const password = user.password || null
+  if (email && password) {
+    database.addUser(user.name, user.email, user.password, user.image)
+    .then(users => {
+      res.redirect('/logIn')
+    })
+  }
+  else res.redirect('/signUp')
 })
 
 const port = process.env.PORT || 3000
