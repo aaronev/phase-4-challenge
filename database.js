@@ -79,17 +79,6 @@ const getReviewsById = function(id) {
   return db.any(`SELECT * FROM reviews WHERE id = $1`, [id])
 }
 
-const findUserByEmail = function(email) {
-  return db.any(`SELECT * FROM users WHERE email = $1`, [email])
-}
-
-const getReviewsTest = function() {
-  return db.any(`SELECT * FROM reviews ORDER BY timestamp DESC`)
-}
-
-const deleteReviewByReview = function(review) {
-  return db.none(`DELETE FROM reviews WHERE review = $1;`, [review]);
-}
 module.exports = {
   getAlbums,
   getAlbumsByID,
@@ -103,9 +92,6 @@ module.exports = {
   getReviewsByUserID,
   deleteReviewByID,
   getReviewsById,
-  findUserByEmail,
   getMoreReviews,
-  getReviewsTest,
-  deleteReviewByReview,
   verifyEmail
 }

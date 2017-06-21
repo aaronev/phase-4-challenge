@@ -157,7 +157,9 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
 })
 
 
-app.get('/user/:auth/:userId/delete', (req, res, next) => {
+app.post('/user/:auth/:userId/delete', (req, res, next) => {
+  console.log(req.body)
+  console.log(req.body.reviewID)
   database.getUserById(req.params.userId)
     .then(user => {
       database.getAlbums()
@@ -169,7 +171,8 @@ app.get('/user/:auth/:userId/delete', (req, res, next) => {
           user: user[0],
           reviews: reviews,
           auth: req.params.auth,
-          userID: req.params.userId
+          userID: req.params.userId,
+          deleteReview: req.body.reviewID
           })            
         })
       })
@@ -179,13 +182,6 @@ app.get('/user/:auth/:userId/delete', (req, res, next) => {
 
 //APIs
 
-app.post('/test', (req, res) => {
-  database.verifyEmail(req.body.email)
-  .then(email => {
-    res.send(email)
-  })
-
-})
 app.get('/user/:auth/:userID/delete/:reviewID', (req, res) => {
   const reviewID = req.params.reviewID
   const auth = req.params.auth
@@ -222,16 +218,6 @@ app.get('/reviews/:id', (req, res) => {
   database.getReviewsById(id)
   .then(review => {
     res.send(review)
-  })
-})
-
-app.post('/reviews/delete', (req, res) => {
-  const auth = req.body.auth
-  const id = req.body.id
-  const userID = req.body.userID
-  database.deleteReviewByID(id, userID)
-  .then( () => {
-    res.redirect(`/user/${auth}/${userID}/`)
   })
 })
 
