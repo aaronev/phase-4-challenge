@@ -23,7 +23,7 @@
 <div class="review-list pull-right">
   <h2>Your Reviews</h2>
     <% reviews.forEach(function(review) { %>
-     <form method="get" action="/user/<%= auth%>/<%= review.user_id%>/delete/">
+     <form method="post" action="/user/<%= auth%>/<%= review.user_id%>/delete/">
       <div>
         <p><%= review.review %></p>
         <input class="hide" name="reviewID" value=<%= review.id%>>
