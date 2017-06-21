@@ -183,13 +183,13 @@ app.get('/user/:auth/:userId/view/:Id', (req, res, next) => {
   }
   database.getUserById(req.params.Id)
   .then(user => {
-    database.getReviewsByUserID(req.params.userId)
+    database.getReviewsByUserID(req.params.Id)
     .then(reviews => {
       res.render('user-view-profile', {
       user: user[0],
       reviews: reviews,
       auth: req.params.auth,
-      userID: req.params.userId,
+      userID: req.params.userId
       })            
     })
   })
