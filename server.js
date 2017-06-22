@@ -16,13 +16,34 @@ app.get('/', (req, res, next) => {
   .then(albums => {
     database.getReviews() 
     .then(reviews => {
-      res.render('index', { albums: albums, reviews: reviews})
+      res.render('index', { 
+        albums: albums, 
+        reviews: reviews,
+        auth: null
+      })
     })
   })
   .catch(next)
 })
 
-app.get('/signUp', (req, res) => {
+app.get('/albums/:albumID', (req, res, next) => {
+  const albumID = req.params.albumID
+  database.getAlbumsByID(albumID)
+  .then(album => {
+    database.getReviewsByAlbumId(albumID)
+    .then(reviews => {
+       res.render('non-album', { 
+        albums: album[0], 
+        reviews: reviews,
+        auth: null
+      })
+    })
+  })
+  .catch(next)
+})
+
+app.get('/signUp'
+, (req, res) => {
   res.render('non-signUpForm')
 })
 
@@ -34,17 +55,6 @@ app.get('/logIn', (req, res) => {
   res.render('user-login')
 })
 
-app.get('/albums/:albumID', (req, res, next) => {
-  const albumID = req.params.albumID
-  database.getAlbumsByID(albumID)
-    .then(album => {
-      database.getReviewsByAlbumId(albumID)
-      .then(reviews => {
-         res.render('non-album', { album: album[0], reviews: reviews})
-      })
-    })
-    .catch(next)
-})
 
 app.get('/user/:userId', (req, res, next) => {
   if (isNaN(req.params.userId)) {

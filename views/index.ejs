@@ -1,7 +1,7 @@
-  <% include ./non-header %>
-  <header>
-  <link type="text/css" rel="stylesheet" href="./style.css">
-  </header>
+<% include ./header %>
+
+<body> 
+
   <h1>Vinyl</h1>
   <img src="img-colorful-vinyl.jpg">
   <h2>Records</h2>
@@ -17,17 +17,7 @@
 
   <h2>Recent Reviews</h2>
 
-  <div class="review-list">
-    <% reviews.forEach(function(review) { %>
-      <div>
-        <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
-        <p><%= review.review %></p>
-        <h5><a href="/user/<%= review.user_id %>"><%= review.name %></a></h5>
-      </div>
-    <% }) %>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="/script.js"></script>
-  </body>
+  <% include ./review-list %>
+  
+</body>
 </html>
