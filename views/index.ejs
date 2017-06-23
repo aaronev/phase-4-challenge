@@ -1,23 +1,14 @@
 <% include ./header %>
 
 <body> 
-
   <h1>Vinyl</h1>
   <img src="img-colorful-vinyl.jpg">
+  
   <h2>Records</h2>
-
-  <div class="album-list">
-    <% albums.forEach(function(album) { %>
-      <div>
-        <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-        <span><%= album.artist %></span>
-      </div>
-    <% }) %>
-  </div>
+  <% include ./list/list-albums %>
 
   <h2>Recent Reviews</h2>
-
-  <% include ./review-list %>
-  
+  <% include ./list/list-reviews %>
 </body>
+
 </html>
