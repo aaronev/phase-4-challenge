@@ -1,30 +1,16 @@
-<% include ./non-header %>
-<link rel="stylesheet" type="text/css" href="/style.css">
+<% include ./header %>
 
-<div class="profile-info navbar navbar-default container">
-  <h2><%= user.name %></h2>
-  <img width="150" height="150" src=<%= user.image %>>
-  <h4> Email: <%= user.email %> </h4>
-  <h5> Joined:  <%= user.timestamp %> </h5>
+<body>
+  <div class="profile-info navbar navbar-default container">  
+    
+    <h2><%= user.name %></h2>
+    <img width="150" height="150" src=<%= user.image %>>
+    <h4> Email: <%= user.email %> </h4>
+    <h5> Joined:  <%= user.timestamp %> </h5>
 
-<div class="review-list">
-  <h2>Their Reviews</h2>
-    <% reviews.forEach(function(review) { %>
-     <form method="get" action="/user/<%= auth%>/<%= review.user_id%>/delete/">
-      <div>
-        <h4><a href="/albums/<%= review.album_id %>"><%= review.title %></a></h4>
-        <p><%= review.review %></p>
-        <input class="hide" name="reviewID" value=<%= review.id%>>
-        <input class="hide" name="auth" value=<%= auth%>>
-        <input class="hide" name="userID" value=<%= review.user_id%>>
-      </div>
-    </form>
-    <% }) %>
-    </div>
+    <h2>Their Reviews</h2>
+    <% include ./list/list-reviews%>
+
   </div>
-</div>
-
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="/script.js"></script>
-  </body>
+</body>
 </html>

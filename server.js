@@ -9,63 +9,67 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//Non Users
+// Helpers
+
+renAlb = (albums, reviews, auth) =>  {
+  return  {
+    albums: albums,
+    reviews: reviews,
+    auth: auth
+  }
+}
+
+renRev = (user, reviews, auth) =>  {
+  return  {
+      user: user,
+      reviews: reviews,
+      auth: auth
+  }
+}
+
+// Non Users Accessibility
 
 app.get('/', (req, res, next) => {
   database.getAlbums()
   .then(albums => {
     database.getReviews() 
     .then(reviews => {
-      res.render('index', { albums: albums, reviews: reviews})
+      res.render('index', 
+        renAlb(albums, reviews, null))
     })
   })
   .catch(next)
-})
-
-app.get('/signUp', (req, res) => {
-  res.render('non-signUpForm')
-})
-
-app.get('/verify-user', (req, res) => {
-  res.render('user-new-verify')
-})
-
-app.get('/logIn', (req, res) => {
-  res.render('user-login')
 })
 
 app.get('/albums/:albumID', (req, res, next) => {
   const albumID = req.params.albumID
   database.getAlbumsByID(albumID)
-    .then(album => {
-      database.getReviewsByAlbumId(albumID)
-      .then(reviews => {
-         res.render('non-album', { album: album[0], reviews: reviews})
-      })
-    })
-    .catch(next)
-})
-
-app.get('/user/:userId', (req, res, next) => {
-  if (isNaN(req.params.userId)) {
-    res.redirect('/login')
-  }
-  database.getUserById(req.params.userId)
-  .then(user => {
-    database.getReviewsByUserID(req.params.userId)
+  .then(albums => {
+    database.getReviewsByAlbumId(albumID)
     .then(reviews => {
-      res.render('non-profile', {
-      user: user[0],
-      reviews: reviews,
-      auth: req.params.auth,
-      userID: req.params.userId
-      })            
+      res.render('non-album', 
+        renAlb(albums[0], reviews, null))
     })
   })
   .catch(next)
 })
 
-//Authenticated Users
+app.get('/user/:userID', (req, res, next) => {
+  const {userID} = req.params
+  database.getUserById(userID)
+  .then(user => {
+    database.getReviewsByUserID(userID)
+    .then(reviews => {
+      res.render('non-profile', 
+        renRev(user[0], reviews, null))            
+    })
+  })
+  .catch(next)
+})
+
+app.get('/sign-up', (req, res) => {
+  res.render('non-signUpForm', {auth: null})
+})
 
 app.post('/email-availabilty', (req, res, next) => {
   const user = req.body
@@ -73,14 +77,21 @@ app.post('/email-availabilty', (req, res, next) => {
   const password = user.password || null
   database.verifyEmail(req.body.email)
   .then(anEmail => {
-    if(anEmail.length !== 0) {res.render('error-signup')}
-    else if (user.email && password) {
-      database.addUser(user.name, user.email, user.password, user.image)
+    if (anEmail.length !== 0) {
+      res.render('error-signup', 
+        {auth: null})}
+    else if (email && password) {
+      database.addUser(
+        user.name, 
+        user.email, 
+        user.password, 
+        user.image
+        )
       .then(users => {
         res.redirect('/verify-user')
       })
     }
-    else res.redirect('/signUp')
+    else res.redirect('/sign-up')
   })
 })
 
@@ -94,42 +105,50 @@ app.post('/users', (req, res) => {
       res.redirect('/verify-user')
     })
   }
-  else res.redirect('/signUp')
+  else res.redirect('/sign-up')
 })
 
+app.get('/verify-user', (req, res) => {
+  res.render('user-new-verify', {auth: null})
+})
+
+app.get('/login', (req, res) => {
+  res.render('user-login', {auth: null})
+})
+
+//Authenticated Users
+
 app.post('/user', (req, res, next) => {
-  const email = req.body.email
-  const password = req.body.password
-  database.getUserByEmailPassword(email, password)
+  const logEmail = req.body.email
+  const logPassword = req.body.password
+  database.getUserByEmailPassword(logEmail, logPassword)
   .then(user => {
-    if (!user[0]) {res.redirect('/logIn')}
+    if (!user[0]) {res.redirect('/login')}
     const id = user[0].id
-    res.redirect(`/user/${email+password}/${id}/`)
+    res.redirect(`/user/${logEmail+logPassword}/${id}/`)
   })
   .catch(next)
 })
 
-app.get('/user/:auth/:userId/', (req, res, next) => {
-  if (isNaN(req.params.userId)) {
-    res.redirect('/login')
-  }
-  database.getUserById(req.params.userId)
-    .then(user => {
-      database.getAlbums()
-      .then(albums => {
-        database.getReviewsByUserID(req.params.userId)
-        .then(reviews => {
-          res.render('user-profile', {
-          albums: albums, 
-          user: user[0],
-          reviews: reviews,
-          auth: req.params.auth,
-          userID: req.params.userId
-          })            
-        })
+app.get('/user/:auth/:userID/', (req, res, next) => {
+  if (isNaN(req.params.userID)) {res.redirect('/login')}
+  database.getUserById(req.params.userID)
+  .then(user => {
+    database.getAlbums()
+    .then(albums => {
+      database.getReviewsByUserID(req.params.userID)
+      .then(reviews => {
+        res.render('user-profile', {
+        albums: albums, 
+        user: user[0],
+        reviews: reviews,
+        auth: req.params.auth,
+        userID: req.params.userID
+        })            
       })
     })
-    .catch(next)
+  })
+  .catch(next)
 })
 
 app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
@@ -145,9 +164,8 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
         res.render('user-album', { 
         album: album[0], 
         reviews: reviews, 
-        userID: userID,
         albumID: albumID,
-        reviewID: reviewID,
+        userID: userID,
         auth: auth
       })
      })
@@ -156,19 +174,19 @@ app.get('/user/:auth/:id/albums/:albumID', (req, res, next) => {
   .catch(next)
 })
 
-app.post('/user/:auth/:userId/delete', (req, res, next) => {
-  database.getUserById(req.params.userId)
+app.post('/user/:auth/:userID/delete', (req, res, next) => {
+  database.getUserById(req.params.userID)
   .then(user => {
     database.getAlbums()
     .then(albums => {
-      database.getReviewsByUserID(req.params.userId)
+      database.getReviewsByUserID(req.params.userID)
       .then(reviews => {
         res.render('verify-delete', {
         albums: albums, 
         user: user[0],
         reviews: reviews,
         auth: req.params.auth,
-        userID: req.params.userId,
+        userID: req.params.userID,
         deleteReview: req.body.reviewID
         })            
       })
@@ -249,19 +267,6 @@ app.get('/users', (req, res) => {
   .then(email => {
     res.render('error-signup')
   })  
-})
-
-app.post('/users', (req, res) => {
-  const user = req.body
-  const email = user.email || null
-  const password = user.password || null
-  if (user.email && password) {
-    database.addUser(user.name, user.email, user.password, user.image)
-    .then(users => {
-      res.redirect('/verify-user')
-    })
-  }
-  else res.redirect('/signUp')
 })
 
 const port = process.env.PORT || 3000
