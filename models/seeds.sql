@@ -15,7 +15,6 @@ VALUES
   ('John Doe', 'johndoe@johndoe.com', 'johndoe', 'http://u.o0bc.com/avatars/no-user-image.gif')
 ;
 
-
 INSERT INTO
   reviews (user_id, album_id, review)
 VALUES

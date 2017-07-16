@@ -5,20 +5,51 @@ const db = pgp(connectionString)
 
 const queries = {}
 
-quries.getAllFromTable = table => 
-  db.any(`SELECT * FROM ${table}`)
+queries.getAllFromTable = table => 
+  db.any(`
+    SELECT 
+      * 
+    FROM 
+      ${table}`
+  )
 
-quries.getRowsByID = (table, column, value) =>
-  db.any(`SELECT * FROM ${table} WHERE ${column} = $1`, value)
-
-queries.deleteByID = (table, column, value) => 
-  db.none(`DELELTE FROM ${table} WHERE ${column} = $1`, value)
-
-queries.getRowsWithTwoCondtions = (table, col1, col2, values) => 
-  db.any(`SELECT * FROM ${table} WHERE ${col1} = $1 AND ${col2} = $2`, values)
+queries.getRowsByColumn = (table, column, value) =>
+  db.any(`
+    SELECT 
+      * 
+    FROM 
+      ${table} 
+    WHERE 
+      ${column} = $1`, value
+  )
 
 queries.insertInto = (table, columns, values) =>
-  db.none(`INSERT INTO ${table} ${columns} VALUES $1`, values)
+  db.none(`
+    INSERT INTO 
+      ${table} ${columns} 
+    VALUES 
+      $1`, values
+  )
+
+queries.deleteRowsByID = (table, column, value) => 
+  db.none(`
+    DELELTE FROM 
+      ${table} 
+    WHERE 
+      ${column} = $1`, value
+  )
+
+queries.getRowsWithTwoCondtions = (table, col1, col2, values) => 
+  db.any(`
+    SELECT 
+      * 
+    FROM 
+      ${table} 
+    WHERE 
+      ${col1} = $1 
+    AND 
+      ${col2} = $2`, values
+  )
 
 
 // const addUser = function(name, email, password, image) {
