@@ -10,7 +10,9 @@ queries.getAllFromTable = table =>
     SELECT 
       * 
     FROM 
-      ${table}`
+      ${table}
+    ORDER BY 
+      timestamp`
   )
 
 queries.getRowsByColumn = (table, column, value) =>
@@ -20,7 +22,9 @@ queries.getRowsByColumn = (table, column, value) =>
     FROM 
       ${table} 
     WHERE 
-      ${column} = $1`, value
+      ${column} = $1
+    ORDER BY 
+      timestamp`, value
   )
 
 queries.insertInto = (table, columns, values) =>
@@ -48,9 +52,22 @@ queries.getRowsWithTwoCondtions = (table, col1, col2, values) =>
     WHERE 
       ${col1} = $1 
     AND 
-      ${col2} = $2`, values
+      ${col2} = $2
+    ORDER BY 
+      timestamp`, values
   )
 
+queries.getWithLimits = (table, limit) => 
+  db.any(`
+    SELECT 
+      * 
+    FROM 
+      ${table}
+    ORDER BY 
+      timestamp
+    LIMIT $1
+    `, limit
+  )
 
 // const addUser = function(name, email, password, image) {
 //   return db.none(

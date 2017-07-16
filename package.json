@@ -8,7 +8,7 @@
     "db:create": "createdb vinyl",
     "db:drop": "dropdb vinyl",
     "db:schema": "psql -d vinyl < ./models/schema.sql",
-    "db:seed": "psql -d vinyl < ./models/seeds.sql"
+    "db:seed": "psql -d vinyl < ./models/seed.sql"
   },
   "license": "MIT",
   "dependencies": {
