@@ -2,7 +2,8 @@ DROP TABLE IF EXISTS albums;
 CREATE TABLE albums (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
-  artist VARCHAR(255) NOT NULL
+  artist VARCHAR(255) NOT NULL,
+  timestamp TIMESTAMP DEFAULT current_timestamp
 );
 
 DROP TABLE IF EXISTS users;
