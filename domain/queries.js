@@ -1,6 +1,6 @@
 const db = require('../models/database')
 
-const select = {
+const get = {
   allUsers: db.getAllFromTable('users'),
   allAlbums:  db.getAllFromTable('albums'),
   allReviews: db.getAllFromTable('reviews'),
@@ -21,4 +21,4 @@ const del = {
   reviewsByID: id => db.deleteRowsByID('reviews', 'id', id)
 }
 
-module.exports = {select, del, add}
+module.exports = {get, del, add}
