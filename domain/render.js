@@ -15,11 +15,11 @@ render.homePageAsThe = (response) =>
   })
 
 render.albumsPageAsThe = (response, albumID) =>
-  get.albumByID(id)
+  get.albumByID(albumID)
   .then( albums => {
     get.allUsers
     .then( users => {
-      get.ReviewsByAlbumID(id)
+      get.reviewsByAlbumID(albumID)
       .then( reviews => {
         response.render('albums', {albums, reviews, users})
       })
@@ -27,13 +27,13 @@ render.albumsPageAsThe = (response, albumID) =>
   })
 
 render.usersPageAsThe = (response, userID) => 
-  get.albumByID(id)
+  get.allAlbums
   .then( albums => {
-    get.usersByID(userID)
+    get.userByID(userID)
     .then( users => {
-      get.ReviewsByUserID(userID)
+      get.reviewsByUserID(userID)
       .then( reviews => {
-        response.render('albums', {albums, reviews, users})
+        response.render('profile', {albums, reviews, users})
       })
     })
   })

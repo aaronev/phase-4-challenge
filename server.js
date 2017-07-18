@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const render = require('./domain/render')
+const auth = require('./routers/auth')
+const signUp = require('./routers/signUp')
 const app = express()
 
 require('ejs')
@@ -15,24 +17,23 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res, next) => {
-  render.homePageAsThe(res).catch(next)
+  render.homePageAsThe(res)
+  .catch(next)
 })
 
 app.get('/albums/:id', (req, res, next) => {
-  render.albumsPageAsThe(res).catch(next)
+  render.albumsPageAsThe(res, req.params.id)
+  .catch(next)
 })
 
 app.get('/users/:id', (req, res, next) => {
-  render.usersPageAsThe(res).catch(next)
+  render.usersPageAsThe(res, req.params.id)
+  .catch(next)
 })
 
-app.use('/sign-in', (req, res, next) => { //authenticate.usingPassport)
-  render.signInPageAsMy(res).catch(next)
-})
+app.use('/sign-up', signUp)
 
-app.use('/sign-up', (req, res, next) => { //sign up route
-  res.render('sign-up')
-})
+app.use('/sign-in', auth)
 
 app.get('/sign-out', (req, res, next) => {
   //req.logout()

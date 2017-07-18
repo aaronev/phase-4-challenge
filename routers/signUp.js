@@ -3,7 +3,7 @@ const router = express.Router()
 
 router.route('/')
 .get((req, res) => {
-  res.render('sign-in')
+res.render('sign-up')
 })
 
-module.exports = router
+ module.exports = router
