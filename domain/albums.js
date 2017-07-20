@@ -1,4 +1,4 @@
-const DB = require('../models/database')
+const DB = require('../database/database')
 
 const albums = new DB('albums', ['title','artist'])
 

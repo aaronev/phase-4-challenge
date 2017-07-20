@@ -3,8 +3,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const render = require('./domain/render')
-const auth = require('./routers/auth')
-const signUp = require('./routers/signUp')
+const signUpRoutes = require('./routers/signUp')
+const authenticationRoutes = require('./routers/auth')
 const app = express()
 
 require('ejs')
@@ -20,38 +20,22 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', (req, res, next) => { 
-  render.homePageAsThe(res)
-  .catch(next)
-})
-
-app.get('/albums/:id', (req, res, next) => {
-  render.albumsPageAsThe(res, req.params.id)
-  .catch(next)
-})
-
-app.get('/users/:id', (req, res, next) => {
-  render.usersPageAsThe(res, req.params.id)
-  .catch(next)
-})
-
-app.use('/sign-up', signUp)
-
-app.use('/sign-in', auth)
+app.get('/', render.homePage)
+app.get('/albums/:id', render.albumsPage)
+app.get('/users/:id', render.usersPage)
+app.use('/sign-up', signUpRoutes)
+app.use('/sign-in', authenticationRoutes)
 
 app.get('/sign-out', (req, res, next) => {
   req.logout()
   res.redirect('/')
 })
 
-app.get('/test', (req, res, next) => {
-  render.test(res)
-})
+app.get('/test', render.test)
 
-app.use( ( req, res ) => { res.render( 'not_found' ) } )
+app.use((req, res) => {res.render('not_found')})
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}...`)
 })
- 

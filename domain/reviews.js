@@ -1,4 +1,4 @@
-const DB = require('../models/database')
+const DB = require('../database/database')
 
 const reviews = new DB('reviews', ['user_id','album_id','review'])
 

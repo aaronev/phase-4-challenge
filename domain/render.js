@@ -4,46 +4,51 @@ const reviews = require('./reviews')
 
 const render = {}
 
-render.homePageAsThe = response => 
-  albums.all()
+render.homePage = (req, res, next) => {
+ albums.all()
   .then( albums => {
     users.all()
     .then( users => {
       reviews.byLatestThree()
       .then( reviews => {
-        response.render('home', {albums, reviews, users})
-      }).catch(error => error)
+        res.render('home', {albums, reviews, users})
+      })
     })
-  })
+  }).catch(next)
+}
 
-render.albumsPageAsThe = (response, albumID) =>
-  albums.byID(albumID)
+render.albumsPage = (req, res, next) => {
+  albums.byID(req.params.id)
   .then( albums => {
     users.all()
     .then( users => {
-      reviews.byAlbumID(albumID)
+      reviews.byAlbumID(req.params.id)
       .then( reviews => {
-        response.render('albums', {albums, reviews, users})
+        res.render('albums', {albums, reviews, users})
       })
     })
-  })
+  }).catch(next)
+}
 
-render.usersPageAsThe = (response, userID) => 
+render.usersPage = (req, res, next) => {
   albums.all()
   .then( albums => {
-    users.byID(userID)
+    users.byID(req.params.id)
     .then( users => {
        console.log(users)
-      reviews.byUserID(userID)
+      reviews.byUserID(req.params.id)
       .then( reviews => {
-        response.render('profile', {albums, reviews, users})
+        res.render('profile', {albums, reviews, users})
       })
     })
-  })
+  }).catch(next)
+} 
 
-render.test = res => 
+render.test = (req, res, next) => {
   users.all()
   .then(users => {
     res.send(users)
-  })
+  }).catch(next)
+}
+
 module.exports = render

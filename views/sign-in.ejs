@@ -2,6 +2,9 @@
 
 <body>
   <div class="container">
+  <% if (error) { %>
+    <p><%= error %></p>
+  <% } %>
   <form action="/user" method="post">
     <ul class="nav">
       <li><input type="text" name = "email" placeholder="Email Address"></li>

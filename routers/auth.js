@@ -6,7 +6,7 @@ const localStrategy = require('passport-local')
 
 router.route('/')
 .get((req, res) => {
-  res.render('sign-in')
+  res.render('sign-in', {error: null})
 })
 .post((req, res) => {
   const {email, password} = req.body
