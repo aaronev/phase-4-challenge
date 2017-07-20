@@ -4,7 +4,7 @@ const reviews = require('./reviews')
 
 const render = {}
 
-render.homePageAsThe = (response) => 
+render.homePageAsThe = response => 
   albums.all()
   .then( albums => {
     users.all()
@@ -31,8 +31,9 @@ render.albumsPageAsThe = (response, albumID) =>
 render.usersPageAsThe = (response, userID) => 
   albums.all()
   .then( albums => {
-    user.byID(userID)
+    users.byID(userID)
     .then( users => {
+       console.log(users)
       reviews.byUserID(userID)
       .then( reviews => {
         response.render('profile', {albums, reviews, users})
@@ -40,4 +41,9 @@ render.usersPageAsThe = (response, userID) =>
     })
   })
 
+render.test = res => 
+  users.all()
+  .then(users => {
+    res.send(users)
+  })
 module.exports = render

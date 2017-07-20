@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const render = require('./domain/render')
 const auth = require('./routers/auth')
 const signUp = require('./routers/signUp')
@@ -10,6 +12,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({secret: process.env.SECRET }))
+
 app.use((req, res, next) => {
   res.locals.query = ''
   res.locals.user = req.user
@@ -36,8 +40,12 @@ app.use('/sign-up', signUp)
 app.use('/sign-in', auth)
 
 app.get('/sign-out', (req, res, next) => {
-  //req.logout()
+  req.logout()
   res.redirect('/')
+})
+
+app.get('/test', (req, res, next) => {
+  render.test(res)
 })
 
 app.use( ( req, res ) => { res.render( 'not_found' ) } )

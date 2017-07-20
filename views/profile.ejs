@@ -1,18 +1,16 @@
 <% include ./header %>
 <body>
   
-  <% users.forEach(function(user) { %>
-    <h2><%= user.name %></h2>
-    <img width="150" height="150" src=<%= user.image %>>
-    <h4> Email: <%= user.email %> </h4>
-    <h5> Joined:  <%= user.timestamp %> </h5>
-  <% }) %>
+  <h2><%= users.name %></h2>
+  <img width="150" height="150" src=<%= users.image %>>
+  <h4> Email: <%= users.email %> </h4>
+  <h5> Joined:  <%= users.timestamp %> </h5>
 
   <h2>Albums</h2>
 
   <% albums.forEach(function(album) { %>
     <div>
-      <h4><a href="albums/<%= album.id %>"><%= album.title %></a></h4>
+      <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
       <span><%= album.artist %></span>
     </div>
   <% }) %>
@@ -23,7 +21,7 @@
     <div>
      <% albums.forEach(function(album) { %>
         <% if (album.id === review.album_id) { %>
-          <h4><a href="albums/<%= review.album_id %>"><%= album.title %></a></h4>
+          <h4><a href="/albums/<%= review.album_id %>"><%= album.title %></a></h4>
           <span><%= album.artist %></span>
         <% } %>
       <% }) %>

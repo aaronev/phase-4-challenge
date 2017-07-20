@@ -17,7 +17,7 @@ module.exports = class DBfunc {
     return col.join()
   } 
 
-  add(columns, values) {
+  add(values) {
     return db.none(`
       INSERT INTO 
         ${this.table} 
