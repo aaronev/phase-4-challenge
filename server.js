@@ -16,7 +16,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res, next) => { 
   render.homePageAsThe(res)
   .catch(next)
 })
@@ -40,9 +40,7 @@ app.get('/sign-out', (req, res, next) => {
   res.redirect('/')
 })
 
-app.use((req, res) => {
-  res.render('not_found')
-})
+app.use( ( req, res ) => { res.render( 'not_found' ) } )
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

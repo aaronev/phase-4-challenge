@@ -3,79 +3,92 @@ const dbName = 'vinyl'
 const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`
 const db = pgp(connectionString)
 
-const queries = {}
+module.exports = class DBfunc {
+  constructor(tableName, columnsForAdding) {
+    this.table = tableName
+    this.columns = columnsForAdding
+  }
 
-queries.getAllFromTable = table => 
-  db.any(`
+  gen_$Num() {
+    let col = []
+    for (let i = 1; i <= this.columns.length; i++) {
+      col.push('$'+ i)
+    }
+    return col.join()
+  } 
+
+  add(columns, values) {
+    return db.none(`
+      INSERT INTO 
+        ${this.table} 
+        (${this.columns}) 
+      VALUES 
+        (${this.gen_$Num()})
+      RETURNING 
+        *`, values
+    )
+  }
+  
+  deleteByColumn(column, value) {
+    return db.none(`
+      DELELTE FROM 
+        ${this.table} 
+      WHERE 
+        ${column} = $1
+      RETURNING 
+        *`, value
+    )
+  }
+
+  all() {
+    return db.any(`
+      SELECT 
+        * 
+      FROM 
+        ${this.table}
+      ORDER BY 
+        timestamp`
+    )
+  }
+
+ rowsByColumn(column, value) { 
+  return db.any(`
     SELECT 
       * 
     FROM 
-      ${table}
-    ORDER BY 
-      timestamp`
-  )
-
-queries.getRowsByColumn = (table, column, value) =>
-  db.any(`
-    SELECT 
-      * 
-    FROM 
-      ${table} 
+      ${this.table} 
     WHERE 
       ${column} = $1
     ORDER BY 
       timestamp`, value
-  )
+    )
+  }
 
-queries.insertInto = (table, columns, values) =>
-  db.none(`
-    INSERT INTO 
-      ${table} ${columns} 
-    VALUES 
-      $1`, values
-  )
+  rowsBytwoColumns(col1, col2, values){
+    return db.any(`
+      SELECT 
+        * 
+      FROM 
+        ${this.table} 
+      WHERE 
+        ${col1} = $1 
+      AND 
+        ${col2} = $2
+      ORDER BY 
+        timestamp`, values
+    )
+  } 
 
-queries.deleteRowsByID = (table, column, value) => 
-  db.none(`
-    DELELTE FROM 
-      ${table} 
-    WHERE 
-      ${column} = $1`, value
-  )
-
-queries.getRowsWithTwoCondtions = (table, col1, col2, values) => 
-  db.any(`
-    SELECT 
-      * 
-    FROM 
-      ${table} 
-    WHERE 
-      ${col1} = $1 
-    AND 
-      ${col2} = $2
-    ORDER BY 
-      timestamp`, values
-  )
-
-queries.getWithLimits = (table, limit) => 
-  db.any(`
-    SELECT 
-      * 
-    FROM 
-      ${table}
-    ORDER BY 
-      timestamp
-    LIMIT $1
-    `, limit
-  )
-
-// const addUser = function(name, email, password, image) {
-//   return db.none(
-//     `INSERT INTO 
-//     users (name, email, password, image) 
-//     VALUES
-//     ($1, $2, $3, $4);`,
-//      [name, email, password, image])
-// } 
-
-module.exports = queries
+  limitQuery(limit){
+    return db.any(`
+      SELECT 
+        * 
+      FROM 
+        ${this.table}
+      ORDER BY 
+        timestamp
+      LIMIT $1
+      `, limit
+    )
+  }
+}

@@ -1,25 +1,27 @@
-const {get, add, del} = require('./queries')
+const users = require('./users')
+const albums = require('./albums')
+const reviews = require('./reviews')
 
 const render = {}
 
 render.homePageAsThe = (response) => 
-  get.allAlbums
+  albums.all()
   .then( albums => {
-    get.allUsers
+    users.all()
     .then( users => {
-      get.latestThreeReviews
+      reviews.byLatestThree()
       .then( reviews => {
         response.render('home', {albums, reviews, users})
-      })
+      }).catch(error => error)
     })
   })
 
 render.albumsPageAsThe = (response, albumID) =>
-  get.albumByID(albumID)
+  albums.byID(albumID)
   .then( albums => {
-    get.allUsers
+    users.all()
     .then( users => {
-      get.reviewsByAlbumID(albumID)
+      reviews.byAlbumID(albumID)
       .then( reviews => {
         response.render('albums', {albums, reviews, users})
       })
@@ -27,11 +29,11 @@ render.albumsPageAsThe = (response, albumID) =>
   })
 
 render.usersPageAsThe = (response, userID) => 
-  get.allAlbums
+  albums.all()
   .then( albums => {
-    get.userByID(userID)
+    user.byID(userID)
     .then( users => {
-      get.reviewsByUserID(userID)
+      reviews.byUserID(userID)
       .then( reviews => {
         response.render('profile', {albums, reviews, users})
       })
