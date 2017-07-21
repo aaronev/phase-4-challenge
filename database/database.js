@@ -3,7 +3,7 @@ const dbName = 'vinyl'
 const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`
 const db = pgp(connectionString)
 
-module.exports = class DBGenericFunction {
+module.exports = class DatabaseGenericFunctions {
   constructor(tableName, columnsForAdding) {
     this.table = tableName
     this.columns = columnsForAdding

@@ -7,18 +7,15 @@ const router = express.Router()
 router.use(passport.initialize())
 router.use(passport.session())
 
-router.use((req, res, next) => {
-  res.locals.query = ''
-  res.locals.user = req.user
-  next()
-})
-
 passport.serializeUser((user, done) => {
   console.log('in the serialize')
+  console.log(user.id)
   done(null, user.id)
 })
+
 passport.deserializeUser((id, done) => {
   console.log('in the deserialize')
+  console.log(id)
   users.byID(id)
     .then(users => done(null, users))
     .catch(error => done(error, null))
@@ -33,7 +30,7 @@ passport.use('local', new LocalStrategy({
     users.verifyAuth(email, plainTextPassword)
     .then(users => {
       if (users.error) {
-        return done(null, users.error)
+        return done(null, false)
       } else {
         return done(null, users)
       }
@@ -46,7 +43,7 @@ router.route('/')
   res.render('sign-in', {error: null})
 })
 .post(passport.authenticate('local', {
-  successRedirect: '/albums/1',
+  successRedirect: '/',
   failureRedirect: '/sign-in'
 }))
 
