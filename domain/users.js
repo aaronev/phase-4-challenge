@@ -8,7 +8,7 @@ const encrypt = plainText => {
   return bcrypt.hashSync(plainText, salt)
 }
 
-const compareHash = (plainText, hashedText) =>
+const compareEncryption = (plainText, hashedText) =>
   bcrypt.compareSync(plainText, hashedText)
   
 const all = () =>
@@ -21,32 +21,32 @@ const byID = userID =>
   .then(users => users[0])
   .catch(error => error)
 
-const getEmail = value => 
+const byEmail = value => 
   DBUsers.rowsByColumn('email', value)
   .then(users => users[0])
   .catch(error => error)
 
 const add = values =>
-  getEmail(values[1])
+  byEmail(values[1])
   .then(users => {
     if(users) {
       return {error: 'Email already exist!'}
     } else {
       return DBUsers.add([
-        values[0], values[1], encrypt(values[2]), values[3]
+        values[0], 
+        values[1], 
+        encrypt(values[2]), 
+        values[3]
       ])
       .then(users => users)
       .catch(error => error)
     } 
-  })
-  .then(users => users)
-  .catch(error => error)
+  }).catch(error => error)
 
-
-const verifyAuth = (email, plainPassword) =>
-  getEmail(email)
+const verifyAuth = (email, plainTextPassword) =>
+  byEmail(email)
   .then( users => {
-    if(compareHash(plainPassword, DBUsers.password)) {
+    if(compareEncryption(plainTextPassword, users.password)) {
       return users
     } else {
       return {error: 'Incorrect email or password!'}
@@ -57,6 +57,6 @@ module.exports = {
   all,
   byID,
   add,
-  getEmail,
+  byEmail,
   verifyAuth
 }

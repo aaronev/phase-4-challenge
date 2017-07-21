@@ -8,7 +8,6 @@ router.route('/')
 })
 .post((req, res) => {
   const {name, email, password} = req.body
-  console.log(name, email, password)
   defaultImg = '../public/img/no-dj.png'
   users.add([name, email, password, defaultImg])
   .then(users => {
