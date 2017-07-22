@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
   <title>Vinyl</title>
+  <% if (user) { %>
+    <a href="/authorized/users/<%= user.id%>"><img width=100px src="/img/colorful-vinyl.jpg" /></a>
+  <% } else { %>
     <a href="/"><img width=100px src="/img/colorful-vinyl.jpg" /></a>
+  <% } %>
   <h1>Vinyl</h1>
-   <div>
-  <ul>
-    <li><a href="/sign-in">Sign In</a></li>
-    <li><a href="/sign-up">Sign Up</a></li>
-    <li><a href="/sign-out">Sign Out</a></li>
-  </ul>
+  <div>
+    <ul>
+      <% if (user) { %>
+        <li><a href="/authorized/sign-out">Sign Out</a></li>
+      <% } else { %>
+        <li><a href="/sign-in">Sign In</a></li>
+        <li><a href="/sign-up">Sign Up</a></li>
+      <% } %>
+    </ul>
   </div>
 </head>

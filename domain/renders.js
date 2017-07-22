@@ -46,11 +46,4 @@ render.usersPageAsTheResponse = (req, res, next) => {
   }).catch(next)
 } 
 
-render.console = (req, res, next) => {
-  users.all()
-  .then(users => {
-    res.send(users)
-  }).catch(next)
-}
-
 module.exports = render
