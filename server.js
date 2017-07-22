@@ -1,36 +1,20 @@
-require('dotenv').config()
-const express = require('express')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const renders = require('./domain/renders')
-const signUpRoutes = require('./routers/signUp')
-const authRoutes = require('./routers/auth')
-const app = express()
+const { app, renders } = require('./server/config')
 
-require('ejs')
-app.set('view engine', 'ejs')
-app.use(express.static(__dirname + '/public'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(session({secret: process.env.SECRET}))
+app.use('/console', renders.console)
+app.get('/', renders.homePageAsTheResponse)
+app.get('/users/:id', renders.usersPageAsTheResponse)
+app.get('/albums/:id', renders.albumsPageAsTheResponse)
+app.use('/sign-up', require('./routers/signUp'))
+app.use('/sign-in', require('./routers/authenticate'))
+
 app.use((req, res, next) => {
-  res.locals.query = ''
-  res.locals.user = req.user
-  next()
-})
+  req.user 
+  ? next() 
+  : res.redirect('/') 
+}) 
 
-app.get('/', renders.homePage)
-app.get('/albums/:id', renders.albumsPage)
-app.get('/users/:id', renders.usersPage)
-app.use('/sign-up', signUpRoutes)
-app.use('/sign-in', authRoutes)
-app.get('/sign-out', (req, res) => {
-  req.logout()
-  res.redirect('/')
-})
-app.use((req, res) => {res.render('not_found')})
-
-app.get('/test', renders.test)
+app.use('/authorized', require('./routers/authorized'))
+app.use((req, res) => { res.render('not_found') })
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

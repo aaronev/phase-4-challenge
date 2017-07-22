@@ -21,38 +21,36 @@ const byID = userID =>
   .then(users => users[0])
   .catch(error => error)
 
-const byEmail = value => 
-  DBUsers.rowsByColumn('email', value)
-  .then(users => users[0])
+const byEmail = value => {
+console.log('3. it verifies the email first')
+ return DBUsers.rowsByColumn('email', value)
+  .then(users => users[0] )
   .catch(error => error)
-
+}
 const add = values =>
   byEmail(values[1])
   .then(users => {
-    if(users) {
-      return {error: 'Email already exist!'}
-    } else {
-      return DBUsers.add([
+       return DBUsers.add([
         values[0], 
         values[1], 
         encrypt(values[2]), 
         values[3]
       ])
       .then(users => users)
-      .catch(error => error)
+      .catch(error => error) 
+  }).catch(error => error)
+
+const verifyAuth = (email, plainTextPassword) => {
+console.log('2. we verify the email')
+  return byEmail(email)
+  .then( users => {
+    console.log('4. we see if there is a user with the email', users.email)
+   if (compareEncryption(plainTextPassword, users.password)) {
+    console.log('5. we see if the password maches the users password if it does it returns', users)
+      return users
     } 
   }).catch(error => error)
-
-const verifyAuth = (email, plainTextPassword) =>
-  byEmail(email)
-  .then( users => {
-    if(compareEncryption(plainTextPassword, users.password)) {
-      return users
-    } else {
-      return {error: 'Incorrect email or password!'}
-    }
-  }).catch(error => error)
-
+}
 module.exports = {
   all,
   byID,

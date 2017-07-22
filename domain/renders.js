@@ -4,7 +4,7 @@ const reviews = require('./reviews')
 
 const render = {}
 
-render.homePage = (req, res, next) => {
+render.homePageAsTheResponse = (req, res, next) => {
  albums.all()
   .then( albums => {
     users.all()
@@ -17,34 +17,36 @@ render.homePage = (req, res, next) => {
   }).catch(next)
 }
 
-render.albumsPage = (req, res, next) => {
+render.albumsPageAsTheResponse = (req, res, next) => {
   albums.byID(req.params.id)
   .then( albums => {
     users.all()
     .then( users => {
       reviews.byAlbumID(req.params.id)
       .then( reviews => {
-        res.render('albums', {albums, reviews, users})
+        res.render('albums', { albums, reviews, users })
       })
     })
   }).catch(next)
 }
 
-render.usersPage = (req, res, next) => {
+render.usersPageAsTheResponse = (req, res, next) => {
+  console.log('domain renders file req.user see if it exits', req.user)
   albums.all()
   .then( albums => {
     users.byID(req.params.id)
     .then( users => {
-       console.log(users)
       reviews.byUserID(req.params.id)
       .then( reviews => {
-        res.render('profile', {albums, reviews, users})
+        res.render('profile', {
+          albums, reviews, users
+        })
       })
     })
   }).catch(next)
 } 
 
-render.test = (req, res, next) => {
+render.console = (req, res, next) => {
   users.all()
   .then(users => {
     res.send(users)

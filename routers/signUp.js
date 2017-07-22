@@ -4,11 +4,11 @@ const users = require('../domain/users')
 
 router.route('/')
 .get((req, res) => {
-  res.render('sign-up', {error: null})
+  res.render('sign-up', {error: null, userSess: req.user})
 })
 .post((req, res) => {
   const {name, email, password} = req.body
-  defaultImg = '../public/img/no-dj.png'
+  defaultImg = '"/img/no-dj.png"'
   users.add([name, email, password, defaultImg])
   .then(users => {
     if (users.error) {
