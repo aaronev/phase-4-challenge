@@ -6,10 +6,10 @@ app.get('/albums/:id', renders.albumsPageAsTheResponse)
 app.use('/sign-up', require('./server/routers/signUp'))
 app.use('/sign-in', require('./server/routers/authenticate'))
 
-app.use((req, res, next) => {
+app.use((req, res, next) => { 
   req.user 
   ? next() 
-  : res.redirect('/') 
+  : res.redirect('/')
 }) 
 
 app.use('/authorized', require('./server/routers/authorized'))

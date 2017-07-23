@@ -17,8 +17,8 @@ module.exports = class DatabaseGenericFunctions {
     return col.join()
   } 
 
-  add(values) {
-    return db.none(`
+  addRow(values) {
+    return db.any(`
       INSERT INTO 
         ${this.table} 
         (${this.columns}) 
@@ -30,7 +30,7 @@ module.exports = class DatabaseGenericFunctions {
   }
   
   deleteByColumn(column, value) {
-    return db.none(`
+    return db.any(`
       DELELTE FROM 
         ${this.table} 
       WHERE 
@@ -40,7 +40,7 @@ module.exports = class DatabaseGenericFunctions {
     )
   }
 
-  all() {
+  getAllRows() {
     return db.any(`
       SELECT 
         * 
@@ -51,7 +51,7 @@ module.exports = class DatabaseGenericFunctions {
     )
   }
 
- rowsByColumn(column, value) { 
+ getRowsByColumn(column, value) { 
   return db.any(`
     SELECT 
       * 
@@ -64,7 +64,7 @@ module.exports = class DatabaseGenericFunctions {
     )
   }
 
-  rowsBytwoColumns(col1, col2, values){
+  getRowsBytwoColumns(col1, col2, values){
     return db.any(`
       SELECT 
         * 
@@ -79,7 +79,7 @@ module.exports = class DatabaseGenericFunctions {
     )
   } 
 
-  limitQuery(limit){
+  getByLimit(limit){
     return db.any(`
       SELECT 
         * 

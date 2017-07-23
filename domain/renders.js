@@ -1,15 +1,15 @@
-const users = require('./users')
-const albums = require('./albums')
-const reviews = require('./reviews')
+const getAlbums = require('./albums')
+const getReviews = require('./reviews')
+const getUsers = require('./users')
 
 const render = {}
 
 render.homePageAsTheResponse = (req, res, next) => {
- albums.all()
+ getAlbums.all()
   .then( albums => {
-    users.all()
+    getUsers.all()
     .then( users => {
-      reviews.byLatestThree()
+      getReviews.byLatestThree()
       .then( reviews => {
         res.render('home', {albums, reviews, users})
       })
@@ -18,11 +18,11 @@ render.homePageAsTheResponse = (req, res, next) => {
 }
 
 render.albumsPageAsTheResponse = (req, res, next) => {
-  albums.byID(req.params.id)
+  getAlbums.byID(req.params.id)
   .then( albums => {
-    users.all()
+    getUsers.all()
     .then( users => {
-      reviews.byAlbumID(req.params.id)
+      getReviews.byAlbumID(req.params.id)
       .then( reviews => {
         res.render('albums', { albums, reviews, users })
       })
@@ -32,11 +32,11 @@ render.albumsPageAsTheResponse = (req, res, next) => {
 
 render.usersPageAsTheResponse = (req, res, next) => {
   console.log('domain renders file req.user see if it exits', req.user)
-  albums.all()
+  getAlbums.all()
   .then( albums => {
-    users.byID(req.params.id)
+    getUsers.byID(req.params.id)
     .then( users => {
-      reviews.byUserID(req.params.id)
+      getReviews.byUserID(req.params.id)
       .then( reviews => {
         res.render('profile', {
           albums, reviews, users

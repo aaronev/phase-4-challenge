@@ -4,7 +4,9 @@ const LocalStrategy = require('passport-local').Strategy
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const renders = require('../domain/renders')
-const users = require('../domain/users')
+const getUsers = require('../domain/users')
+const getReviews = require('../domain/reviews')
+const getAlbums = require('../domain/albums')
 const app = express()
 
 require('ejs')
@@ -26,7 +28,9 @@ module.exports = {
   express,
   app, 
   passport, 
-  users,
+  getUsers,
   LocalStrategy, 
-  renders
+  renders,
+  getReviews,
+  getAlbums
 }

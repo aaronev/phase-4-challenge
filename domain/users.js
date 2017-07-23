@@ -1,7 +1,7 @@
-const DB = require('../database/database')
+const Table = require('../database/database')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-const DBUsers = new DB('users', ['name', 'email', 'password', 'image'])
+const DBUsers = new Table('users', ['name', 'email', 'password', 'image'])
 
 const encrypt = plainText => {
   const salt = bcrypt.genSaltSync(saltRounds)
@@ -12,22 +12,22 @@ const compareEncryption = (plainText, hashedText) =>
   bcrypt.compareSync(plainText, hashedText)
   
 const all = () =>
-  DBUsers.all()
+  DBUsers.getAllRows()
   .then(users => users)
   .catch(error => error)
 
 const byID = userID => 
-  DBUsers.rowsByColumn('id', userID)
+  DBUsers.getRowsByColumn('id', userID)
   .then(users => users[0])
   .catch(error => error)
 
 const byEmail = value => {
 console.log('3. it verifies the email first')
- return DBUsers.rowsByColumn('email', value)
+ return DBUsers.getRowsByColumn('email', value)
   .then(users => users[0] )
   .catch(error => error)
 }
-const add = values =>
+const toAdd = values =>
   byEmail(values[1])
   .then(users => {
        return DBUsers.add([
@@ -40,7 +40,7 @@ const add = values =>
       .catch(error => error) 
   }).catch(error => error)
 
-const verifyAuth = (email, plainTextPassword) => {
+const toVerifyAuth = (email, plainTextPassword) => {
 console.log('2. we verify the email')
   return byEmail(email)
   .then( users => {
@@ -54,7 +54,7 @@ console.log('2. we verify the email')
 module.exports = {
   all,
   byID,
-  add,
+  toAdd,
   byEmail,
-  verifyAuth
+  toVerifyAuth
 }
