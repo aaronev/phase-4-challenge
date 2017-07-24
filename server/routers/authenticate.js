@@ -1,48 +1,16 @@
-const { express, passport, LocalStrategy, getUsersTable } = require('../config')
+const { express, passport} = require('../config')
 const router = express.Router()
-
-passport.serializeUser((users, done) => { 
-  console.log('6. it then gets into the serialized usersuser user.id', users.id)
-  done(null, users.id) 
-})
-
-passport.deserializeUser((id, done) => {
-  getUsersTable.byID(id)
-    .then(users => done(null, users)) 
-})
-
-passport.use('local', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true
-  }, 
-  (req, email, plainTextPassword, done) => {
-    console.log('1. logging in with email and password')
-    getUsersTable.toVerifyAuth(email, plainTextPassword)
-    .then(users => { 
-      if (users) {
-        console.log('in the verifyAuth then:::', users)
-        done(null, users) 
-      } else { 
-        console.log('in the verifyAuth else then:::', users)
-        done(null, false)
-      }
-    })
-    .catch(error => error)
-  }
-))
 
 router.route('/')
 .get((req, res) => {
-  res.render('sign-in')
+   res.render('sign-in', { 
+    errorLogin: req.flash('errorLogin') 
+  })
 })
-.post( passport.authenticate('local')
-  , (req, res) => {
-    req.user
-    ? res.redirect(`/users/${req.user.id}`)
-    : res.redirect('/sign-in')
-  }
-)
-
+.post(passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/sign-in',
+  failureFlash: true
+}))
 
 module.exports = router

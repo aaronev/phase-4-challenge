@@ -1,15 +1,22 @@
 <% include ./header %>
 
 <body>
-  <div class="container">
+
+  <div>
+  
+  <% if (errorLogin) { %>
+    <p><%= errorLogin %></p>
+  <% } %>
+  
   <form action="/sign-in" method="post">
     <ul class="nav">
-      <li><input type="text" name = "email" placeholder="Email Address"></li>
-      <li><input type="text" name = "password" placeholder="Password"></li>
+      <li><input type="text" name = "email" placeholder="Email Address" required></li>
+      <li><input type="text" name = "password" placeholder="Password" required></li>
     </ul> 
     <input class="right" type="submit" value="Log In">
   </form>
-  <div>
+  
+  </div>
 </body>
 
 </html>

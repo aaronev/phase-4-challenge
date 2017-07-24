@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <title>Vinyl</title>
-  <% if (user) { %>
-    <a href="/users/<%= user.id%>"><img width=100px src="/img/colorful-vinyl.jpg" /></a>
-  <% } else { %>
-    <a href="/"><img width=100px src="/img/colorful-vinyl.jpg" /></a>
-  <% } %>
+
   <h1>Vinyl</h1>
+  
+  <a href="/"><img width=100px src="/img/colorful-vinyl.jpg" /></a>
+
   <div>
     <ul>
+
       <% if (user) { %>
         <li><a href="/authorized/sign-out">Sign Out</a></li>
       <% } else { %>
         <li><a href="/sign-in">Sign In</a></li>
         <li><a href="/sign-up">Sign Up</a></li>
       <% } %>
+    
     </ul>
   </div>
+
 </head>

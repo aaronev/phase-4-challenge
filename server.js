@@ -1,6 +1,5 @@
 const { app, renders } = require('./server/config')
 
-app.get('/test', renders.reviews)
 app.get('/', renders.homePageAsTheResponse)
 app.get('/users/:id', renders.usersPageAsTheResponse)
 app.get('/albums/:id', renders.albumsPageAsTheResponse)

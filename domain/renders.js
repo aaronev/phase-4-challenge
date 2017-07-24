@@ -3,14 +3,11 @@ const getReviews = require('./reviews')
 const getUsers = require('./users')
 
 const render = {}
-render.reviews = (req, res, next) => 
-  getReviews.all()
-  .then(reviews => {
-    res.send(reviews)
-  })
-  
+
 render.homePageAsTheResponse = (req, res, next) => {
- getAlbums.all()
+  req.user
+  ? res.redirect(`/users/${req.user.id}`)
+  : getAlbums.all()
   .then( albums => {
     getUsers.all()
     .then( users => {
@@ -36,7 +33,6 @@ render.albumsPageAsTheResponse = (req, res, next) => {
 }
 
 render.usersPageAsTheResponse = (req, res, next) => {
-  console.log('domain renders file req.user see if it exits', req.user)
   getAlbums.all()
   .then( albums => {
     getUsers.byID(req.params.id)

@@ -8,6 +8,7 @@
   </div>
 <% }) %>
 </div>
+
 <div class="review-list">
   <% reviews.forEach(function(review) { %>
     <div>
@@ -16,13 +17,16 @@
         <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
       <% } %>
     <% }) %>
+    
     <h6><%= review.timestamp%></h6>
     </p><%= review.review %></p>
+    
     <% users.forEach(function(user) { %>
       <% if (user.id === review.user_id) {%>
         <h5><a href="/users/<%= review.user_id %>"><%= user.name %></a></h5>
       <% } %>
     <% }) %>
+    
     </div>
   <% }) %>
 </div>

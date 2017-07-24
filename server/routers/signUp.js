@@ -3,18 +3,21 @@ const router = express.Router()
 
 router.route('/')
 .get((req, res) => {
-  res.render('sign-up')
+  res.render('sign-up', { 
+    errorSignUp: req.flash('errorSignUp')
+  })
 })
 .post((req, res) => {
   const {name, email, password} = req.body
   defaultImg = '/img/no-dj.png'
-  getUsersTable.toAdd(name, email, password, defaultImg)
-  .then(users => {
-    console.log('in the sign-up route', users)
-    if (users.error) {
+  getUsersTable.byEmail(email)
+  .then(foundEmail => {
+    if (foundEmail) {
+      req.flash('errorSignUp', 'Email already exist!')
       res.redirect('/sign-up')
     } else {
-      res.redirect('/sign-in') 
+      getUsersTable.toAdd(name, email, password, defaultImg)
+      .then(addedUsers => { res.redirect('/sign-in') })
     }
   })
 })

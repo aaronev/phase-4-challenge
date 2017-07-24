@@ -1,5 +1,10 @@
 # Vinyl
 
+## ADDING Features
+
+1. Add the confirm in the vanilla javascript
+1. Add Style
+
 A community for record enthusiasts to review their favorite albums.
 
 Part of the application has already been built for you. Your job is to take it to completion.

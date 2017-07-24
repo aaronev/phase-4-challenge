@@ -3,13 +3,13 @@ const dbName = 'vinyl'
 const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`
 const db = pgp(connectionString)
 
-module.exports = class DatabaseGenericFunctions {
+module.exports = class DatabaseGenericTableFunctions {
   constructor(tableName, columnsForAdding) {
     this.table = tableName
     this.columns = columnsForAdding
   }
 
-  gen_$Num() {
+  generate_$Num() {
     let col = []
     for (let i = 1; i <= this.columns.length; i++) {
       col.push('$'+ i)
@@ -23,7 +23,7 @@ module.exports = class DatabaseGenericFunctions {
         ${this.table} 
         (${this.columns}) 
       VALUES 
-        (${this.gen_$Num()})
+        (${this.generate_$Num()})
       RETURNING 
         *`, values
     )
