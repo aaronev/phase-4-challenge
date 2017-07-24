@@ -1,4 +1,4 @@
-const { express, users } = require('../config')
+const { express, getUsersTable } = require('../config')
 const router = express.Router()
 
 router.route('/')
@@ -8,10 +8,11 @@ router.route('/')
 .post((req, res) => {
   const {name, email, password} = req.body
   defaultImg = '/img/no-dj.png'
-  users.add([name, email, password, defaultImg])
+  getUsersTable.toAdd(name, email, password, defaultImg)
   .then(users => {
+    console.log('in the sign-up route', users)
     if (users.error) {
-      res.render('sign-up', {error: users.error})
+      res.redirect('/sign-up')
     } else {
       res.redirect('/sign-in') 
     }

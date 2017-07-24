@@ -31,7 +31,7 @@ module.exports = class DatabaseGenericFunctions {
   
   deleteByColumn(column, value) {
     return db.any(`
-      DELELTE FROM 
+      DELETE FROM 
         ${this.table} 
       WHERE 
         ${column} = $1
@@ -47,7 +47,8 @@ module.exports = class DatabaseGenericFunctions {
       FROM 
         ${this.table}
       ORDER BY 
-        timestamp`
+        timestamp
+      DESC`
     )
   }
 
@@ -60,7 +61,8 @@ module.exports = class DatabaseGenericFunctions {
     WHERE 
       ${column} = $1
     ORDER BY 
-      timestamp`, value
+      timestamp
+    DESC`, value
     )
   }
 
@@ -75,7 +77,8 @@ module.exports = class DatabaseGenericFunctions {
       AND 
         ${col2} = $2
       ORDER BY 
-        timestamp`, values
+        timestamp
+      DESC`, values
     )
   } 
 
@@ -87,6 +90,7 @@ module.exports = class DatabaseGenericFunctions {
         ${this.table}
       ORDER BY 
         timestamp
+      DESC
       LIMIT $1
       `, limit
     )

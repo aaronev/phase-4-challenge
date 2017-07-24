@@ -26,8 +26,15 @@
         <% } %>
       <% }) %>
     </div>
+    
     <h3><%= review.review%></h3>
-    <h5><h5>
+    
+    <% if (user) { %>
+      <% if (user.id === review.user_id) { %>
+      <a href = "/authorized/delete/review/<%=review.id%>">Delete</a>
+      <% } %>
+    <% } %>
+  
   <% }) %>
   
 </body>

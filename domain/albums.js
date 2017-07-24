@@ -1,13 +1,13 @@
-const Table = require('../database/database')
-const DBAlbums = new Table('albums', ['title','artist'])
+const DBTable = require('../database/database')
+const AlbumsTable = new DBTable('albums', ['title','artist'])
 
 const all = () => 
-  DBAlbums.getAllRows()
+  AlbumsTable.getAllRows()
   .then(albums => albums)
   .catch(error => error)
 
 const byID = (albumID) =>
-  DBAlbums.getRowsByColumn('id', albumID)
+  AlbumsTable.getRowsByColumn('id', albumID)
   .then(album => album[0])
   .catch(error => error)
 

@@ -3,7 +3,12 @@ const getReviews = require('./reviews')
 const getUsers = require('./users')
 
 const render = {}
-
+render.reviews = (req, res, next) => 
+  getReviews.all()
+  .then(reviews => {
+    res.send(reviews)
+  })
+  
 render.homePageAsTheResponse = (req, res, next) => {
  getAlbums.all()
   .then( albums => {

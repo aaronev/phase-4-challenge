@@ -1,43 +1,53 @@
-const Table = require('../database/database')
+const DBTable = require('../database/database')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-const DBUsers = new Table('users', ['name', 'email', 'password', 'image'])
+const UsersTable = new DBTable('users', ['name', 'email', 'password', 'image'])
 
-const encrypt = plainText => {
+function encrypt(plainText) {
   const salt = bcrypt.genSaltSync(saltRounds)
   return bcrypt.hashSync(plainText, salt)
 }
 
-const compareEncryption = (plainText, hashedText) =>
-  bcrypt.compareSync(plainText, hashedText)
+function compareEncryption(plainText, hashedText) {
+  return bcrypt.compareSync(plainText, hashedText)
+}
   
 const all = () =>
-  DBUsers.getAllRows()
+ UsersTable.getAllRows()
   .then(users => users)
   .catch(error => error)
 
 const byID = userID => 
-  DBUsers.getRowsByColumn('id', userID)
+ UsersTable.getRowsByColumn('id', userID)
   .then(users => users[0])
   .catch(error => error)
 
 const byEmail = value => {
 console.log('3. it verifies the email first')
- return DBUsers.getRowsByColumn('email', value)
-  .then(users => users[0] )
+ return UsersTable.getRowsByColumn('email', value)
+  .then(users => { 
+    console.log('users in the byEmal:&(*&(&::', users)
+    return users[0] 
+  })
   .catch(error => error)
 }
-const toAdd = values =>
-  byEmail(values[1])
+
+const toAdd = (name, email, password, img) =>
+  byEmail(email)
   .then(users => {
-       return DBUsers.add([
-        values[0], 
-        values[1], 
-        encrypt(values[2]), 
-        values[3]
-      ])
-      .then(users => users)
+    console.log('in the to add funcitons users', users)
+    if (users) { 
+      return { error: 'Email already exist!'}
+    } else {
+       return UsersTable.addRow(
+        [name, email, encrypt(password), img]
+        )
+      .then(users => {
+        console.log('users has been added', users)
+        return users
+      })
       .catch(error => error) 
+    }
   }).catch(error => error)
 
 const toVerifyAuth = (email, plainTextPassword) => {

@@ -1,4 +1,4 @@
-const { express, passport, LocalStrategy, getUsers } = require('../config')
+const { express, passport, LocalStrategy, getUsersTable } = require('../config')
 const router = express.Router()
 
 passport.serializeUser((users, done) => { 
@@ -7,7 +7,7 @@ passport.serializeUser((users, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-  getUsers.byID(id)
+  getUsersTable.byID(id)
     .then(users => done(null, users)) 
 })
 
@@ -18,7 +18,7 @@ passport.use('local', new LocalStrategy({
   }, 
   (req, email, plainTextPassword, done) => {
     console.log('1. logging in with email and password')
-    getUsers.toVerifyAuth(email, plainTextPassword)
+    getUsersTable.toVerifyAuth(email, plainTextPassword)
     .then(users => { 
       if (users) {
         console.log('in the verifyAuth then:::', users)

@@ -4,11 +4,13 @@
   <h2><%= albums.title %></h2>
   <h3><%= albums.artist %></h3>
 
-  <form method="post" action="/authorized/add/review/<%=albums.id%>">
-    <legend>Add Review</legend>
-    <textarea name="review"></textarea>
-    <input type="submit" value="Post" />
-  <form>
+  <% if (user) { %>
+    <form method="post" action="/authorized/add/review/<%=albums.id%>">
+      <legend>Add Review</legend>
+      <textarea name="review"></textarea>
+      <input type="submit" value="Post" />
+    <form>
+  <% } %>
 
   <h2>Reviews</h2>
   
