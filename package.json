@@ -10,10 +10,15 @@
     "db:schema": "psql -d vinyl < ./database/schema.sql",
     "db:seed": "psql -d vinyl < ./database/seed.sql"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronev/phase-4-challenge.git"
+  },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
+    "bulma": "^0.4.4",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.6",
     "express": "^4.15.3",

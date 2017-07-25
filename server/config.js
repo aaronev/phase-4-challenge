@@ -12,8 +12,8 @@ const app = express()
 
 require('ejs')
 app.set('view engine', 'ejs')
-app.use(session({secret: 'secret'}))
 app.use(express.static('public'))
+app.use(session({secret: 'secret'}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(passport.initialize())
@@ -47,9 +47,14 @@ passport.use('local', new LocalStrategy({
           'Email not found, please sign up!'
           ))
       } else {
-        return getUsersTable.toVerifyPassword(plainTextPassword, user.password)
+        return getUsersTable.toVerifyPassword(
+          plainTextPassword, user.password
+        )
         ? done(null, user)
-        : done(null, false, req.flash('errorLogin', 'Incorrect password!'))
+        : done(null, false, req.flash(
+            'errorLogin', 
+            'Incorrect password!'
+        ))
       }
     })
   }

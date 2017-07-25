@@ -1,15 +1,19 @@
+<!DOCTYPE html>
+
 <% include ./header %>
 
-<div class="album-list">
-<% albums.forEach(function(album) { %>
-  <div>
-    <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-    <span><%= album.artist %></span>
-  </div>
-<% }) %>
+<div class="list albums">
+  <h2>Albums</h2>
+  <% albums.forEach(function(album) { %>
+    <div>
+      <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
+      <span><%= album.artist %></span>
+    </div>
+  <% }) %>
 </div>
 
-<div class="review-list">
+<div class="list reviews">
+  <h2>Reviews</h2>
   <% reviews.forEach(function(review) { %>
     <div>
     <% albums.forEach(function(album) { %>
@@ -31,3 +35,4 @@
   <% }) %>
 </div>
 
+<% include ./footer %>
