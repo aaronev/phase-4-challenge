@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <% include ./header %>
 
-<% if (errorSignUp) { %>
-  <p><%= errorSignUp %></p>
-<% } %>
+<div class="sign-up-page">
+  <h2>Sign up for Vinyl!</h2>
+  
+  <% if (errorSignUp) { %>
+    <p><%= errorSignUp %></p>
+  <% } %>
 
-<form action="sign-up" method="post">
-  <input type="name" name="name" placeholder="Full Name" required>
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <input type="submit" value="sign-up">
-</form>
+  <form action="sign-up" method="post">
+    <input type="name" name="name" placeholder="Full Name" required>
+    <div>
+    <input type="email" name="email" placeholder="Email" required>
+    </div>
+    <input type="password" name="password" placeholder="Password" required>
+    <div>    
+    <input type="submit" value="sign-up">
+    </div>
+  </form>
+
+</div>

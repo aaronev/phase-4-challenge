@@ -12,18 +12,151 @@ a:hover {
 
 li {
   list-style: none;
+  display: inline;
 }
-
-html {
-  border: solid;
-
-}
-
-head {
-  border: solid;
-}
-
 
 body {
   text-align: center;
 }
+
+.navbar {
+  width: 100%;
+  height: 50px;
+  float: left;
+}
+
+.navbar a img {
+  width: 60px;
+
+}
+.navbar span {
+  position: relative;
+  bottom: 15px;
+  right: 35px;
+}
+
+.nav-homepage-link {
+  position: relative;
+  bottom: 10px;
+  float: left;
+  padding: 10px;
+  font-size: 45px;
+}
+
+.nav-sign {
+  position: relative;
+  text-align: center;
+  bottom: 10px;
+  height: 10px;
+  float: right;
+  padding: 5px;
+  font-size: 19.5px;
+}
+
+.list-albums {
+  width: 50%;
+  float: left;
+  text-align: justify;
+  overflow-y: hidden;
+}
+
+.list-reviews {
+  text-align: center;
+  position: relative;
+  left: 150px;
+  bottom: 400px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 80%;
+  padding: 10px;
+  margin: 10px;
+}
+
+.list-reviews h4 {
+  position: relative;
+  right: 10px;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+}
+
+.list-reviews h6 {
+  position: relative;
+  bottom: 45px;
+  left: 150px;
+}
+
+.list-reviews p {
+  position: relative;
+  bottom: 50px;
+  text-align: justify;
+}
+
+.list-reviews h5 {
+  position: relative;
+  bottom: 50px;
+  left: 100px;
+}
+
+.records-reviews {
+  width: 100%;
+}
+
+.albums-page-reviews {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: solid;
+  position: relative;
+  left: 50px;
+  width: 90%;
+  height: 100%;
+  padding: 10px;
+  margin: 10px;
+}
+
+.albums-page-reviews h3{
+  position: relative;
+  right: 150px;
+}
+
+.albums-page-reviews h6{
+  position: relative;
+  left: 150px;
+  bottom: 45px;
+}
+
+.albums-page-reviews p{
+  position: relative;
+  bottom: 50px;
+  text-align: justify;
+  padding: 10px
+}
+
+.albums-page-reviews h5{
+  position: relative;
+  bottom: 50px;
+  left: 100px;
+}
+
+.sign-in-page, .sign-up-page {
+  text-align: center;
+  position: relative;
+  top: 100px;
+}
+
+.sign-in-page div {
+  padding: 10px;
+}
+
+.sign-up-page div{
+  padding: 10px;
+}
+
+
+
+
+
+
+
+
+

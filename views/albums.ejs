@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 
 <% include ./header %>
-  <body>
 
-    <h2><%= albums.title %></h2>
-    <h3><%= albums.artist %></h3>
+<div class="albums-page">
+  
+  <h2><%= albums.title %></h2>
+  <h3><%= albums.artist %></h3>
 
-    <% if (user) { %>
-      <form method="post" action="/authorized/add/review/<%=albums.id%>">
-        <legend>Add Review</legend>
-        <textarea name="review"></textarea>
-        <input type="submit" value="Post" />
-      <form>
-    <% } %>
+  <% if (user) { %>
+    <button>Add Review</button>
+    <form method="post" action="/authorized/add/review/<%=albums.id%>">
+      <legend>Add Review</legend>
+      <textarea name="review" required></textarea>
+      <input type="submit" value="Post" />
+    </form>
+  <% } %>
 
-    <h2>Reviews</h2>
-    
-    <% reviews.forEach(function(review) { %>
-      <div>
-      <h6><%= review.timestamp%></h6>
-      </p><%= review.review %></p>
-      <% users.forEach(function(user) { %>
-        <% if (user.id === review.user_id) {%>
-          <h5><a href="/users/<%= review.user_id %>"><%= user.name %></a></h5>
-        <% } %>
-      <% }) %>
-      </div>
+  <h2>Reviews</h2>
+  <% reviews.forEach(function(review) { %>
+    <div class="albums-page-reviews">
+    <h3><%= albums.title%></h3>
+    <h6><%= review.timestamp%></h6>
+    <p><%= review.review %></p>
+    <% users.forEach(function(user) { %>
+      <% if (user.id === review.user_id) {%>
+        <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
+      <% } %>
     <% }) %>
-    
-  </body>
+    </div>
+  <% }) %>
+
+</div>
+<% include ./footer %>

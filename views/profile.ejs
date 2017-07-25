@@ -20,6 +20,7 @@
   <h2>Reviews</h2>
 
   <% reviews.forEach(function(review) { %>
+
     <div>
      <% albums.forEach(function(album) { %>
         <% if (album.id === review.album_id) { %>
@@ -33,7 +34,7 @@
     
     <% if (user) { %>
       <% if (user.id === review.user_id) { %>
-        <a href = "/authorized/delete/<%=review.id%>">Delete</a>
+        <a href = "/authorized/delete/<%=review.id%>"><img width=30px src="/img/trash.png"/></a>
       <% } %>
     <% } %>
   
