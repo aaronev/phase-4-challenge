@@ -1,17 +1,15 @@
-console.log('hello from the browser JavaScript')
-
 var DOM = {
   cancelAddReview: document.querySelector(".close-review-button"),
   openAddReview: document.querySelector(".open-review-button"),
-  addReviewForm:  document.querySelector(".add-review")
+  addReviewForm: document.querySelector(".add-review")
 }
 
 window.onload = function() {
-  DOM.cancelAddReview.style.display="none"
+  DOM.cancelAddReview.style.display = "none"
 }
 
 function showAddForm() {
-  DOM.cancelAddReview.style.display="block"
+  DOM.cancelAddReview.style.display = "block"
   DOM.openAddReview.style.display = "none"
   DOM.addReviewForm.style.display = "block"
 }
@@ -22,9 +20,10 @@ function hideAddForm() {
   DOM.addReviewForm.style.display = "none"
 }
 
-function confirmDelete(event) {
-  if (confirm("You sure you want to delete?")) {
-    fetch('/authorized/delete/'+reviewID)
-    .then()
-  } else event.preventDefault()
+function confirmDelete(reviewID) {
+  if (confirm("Are you sure you want to delete?")) {
+    var deleteRoute = document.querySelector(".deleteRoute"+reviewID)
+    var link ="/authorized/delete/"+reviewID
+    return deleteRoute.href = link
+  }
 }

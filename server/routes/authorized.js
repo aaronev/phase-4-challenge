@@ -16,6 +16,7 @@ router.get('/delete/:reviewID', (req, res, next) => {
  .then( deletedReview => {
     if(deletedReview) {
     res.redirect(`/users/${req.user.id}`)
+    res.redirect(`/albums/1`)
     }
   })
   .catch(next)
