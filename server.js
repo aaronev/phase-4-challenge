@@ -1,19 +1,27 @@
-const { app, renders } = require('./server/config')
+const express = require('express')
+const passport = require('./config/authentication')
+const session = require('express-session')
+const bodyParser = require('body-parser')
+const flash = require('connect-flash')
+const routes = require('./server/routes')
+const app = express()
 
-app.get('/', renders.homePageAsTheResponse)
-app.get('/users/:id', renders.usersPageAsTheResponse)
-app.get('/albums/:id', renders.albumsPageAsTheResponse)
-app.use('/sign-up', require('./server/routers/signUp'))
-app.use('/sign-in', require('./server/routers/authenticate'))
+require('ejs')
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
+app.use(session({secret: 'secret'}))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
 
-app.use((req, res, next) => { 
-  req.user 
-  ? next() 
-  : res.redirect('/')
-}) 
+app.use((req, res, next) => {
+  res.locals.userSess = req.user
+  next()
+})
 
-app.use('/authorized', require('./server/routers/authorized'))
-app.use((req, res) => { res.render('not_found') })
+app.use('/', routes)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

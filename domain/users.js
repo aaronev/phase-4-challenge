@@ -1,10 +1,9 @@
 const DBTable = require('../database/database')
 const bcrypt = require('bcrypt')
-const saltRounds = 10
 const UsersTable = new DBTable('users', ['name', 'email', 'password', 'image'])
 
 function encrypt(plainText) {
-  const salt = bcrypt.genSaltSync(saltRounds)
+  const salt = bcrypt.genSaltSync(10)
   return bcrypt.hashSync(plainText, salt)
 }
 

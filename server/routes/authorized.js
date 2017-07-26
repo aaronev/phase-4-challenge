@@ -1,5 +1,5 @@
-const { express, renders, getReviewsTable } = require('../config')
-const router = express.Router()
+const getReviewsTable = require('../../domain/reviews')
+const router = require('express').Router()
 
 router.post('/add/review/:albumID', (req, res, next) => {
  getReviewsTable.toAdd(

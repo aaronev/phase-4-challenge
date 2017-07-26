@@ -1,5 +1,5 @@
-const { express, getUsersTable } = require('../config')
-const router = express.Router()
+const router = require('express').Router()
+const getUsersTable = require('../../domain/users')
 
 router.route('/')
 .get((req, res) => {

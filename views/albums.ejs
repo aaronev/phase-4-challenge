@@ -7,9 +7,10 @@
   <h2><%= albums.title %></h2>
   <h3><%= albums.artist %></h3>
 
-  <% if (user) { %>
-    <button>Add Review</button>
-    <form method="post" action="/authorized/add/review/<%=albums.id%>">
+  <% if (userSess) { %>
+    <button class="open-review-button" onclick="showAddForm()">Add Review</button>
+    <button class="close-review-button" onclick="hideAddForm()">Cancel</button>
+    <form class="add-review" method="post" action="/authorized/add/review/<%=albums.id%>">
       <legend>Add Review</legend>
       <textarea name="review" required></textarea>
       <input type="submit" value="Post" />
@@ -31,4 +32,5 @@
   <% }) %>
 
 </div>
+
 <% include ./footer %>

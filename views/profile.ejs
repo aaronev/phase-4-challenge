@@ -32,12 +32,14 @@
     
     <h3><%= review.review%></h3>
     
-    <% if (user) { %>
-      <% if (user.id === review.user_id) { %>
-        <a href = "/authorized/delete/<%=review.id%>"><img width=30px src="/img/trash.png"/></a>
+    <% if (userSess) { %>
+      <% if (userSess.id === review.user_id) { %>
+        <a href = "/authorized/delete/<%=review.id%>"><img onclick="confirmDelete()"width=30px src="/img/trash.png"/></a>
       <% } %>
     <% } %>
   
   <% }) %>
   
 </body>
+
+<% include ./footer %>
