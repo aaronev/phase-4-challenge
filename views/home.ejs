@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 
-<% include ./header %>
+<% include ./partials/header %>
 
-  <a href="/">
-    <img class="homepage-image" src="/img/colorful-vinyl.jpg"/>
-  </a>
+  <div class="hompage">
 
-  
-  <div class="records-reviews">
-  
+    <a href="/">
+      <img class="homepage-image" src="/img/colorful-vinyl.jpg"/>
+    </a>
 
-    <div class="list-albums">
+    <div class="homepage-info">
+      <div class="homepage-albums">
+        <h2>Records</h2>
+        <% include ./lists/albums %>
+      </div>
 
-      <h2>Records</h2>
-      <% albums.forEach(function(album) { %>
-        <div>
-          <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-          <span><%= album.artist %></span>
-        </div>
-      <% }) %>
-    </div>
-
-    <div class="list-reviews">
-    
-      <h2>Recent Reviews</h2>
-      <% reviews.forEach(function(review) { %>
-        <% albums.forEach(function(album) { %>
-          <% if (album.id === review.album_id) { %>
-            <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-          <% } %>
+      
+      <div class="homepage-reviews">
+        <h2>Recent Reviews</h2>
+        <% reviews.forEach(function(review) { %>
+          <% albums.forEach(function(album) { %>
+            <% if (album.id === review.album_id) { %>
+              <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
+            <% } %>
+          <% }) %>
+          
+          <h6><%= review.timestamp%></h6>
+          <p><%= review.review %></p>
+          
+          <% users.forEach(function(user) { %>
+            <% if (user.id === review.user_id) {%>
+              <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
+            <% } %>
+          <% }) %>  
         <% }) %>
-        
-        <h6><%= review.timestamp%></h6>
-        <p><%= review.review %></p>
-        
-        <% users.forEach(function(user) { %>
-          <% if (user.id === review.user_id) {%>
-            <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
-          <% } %>
-        <% }) %>  
-      <% }) %>
-
+      </div>
     </div>
+  </div>
 
-<% include ./footer %>
+<% include ./partials/footer %>

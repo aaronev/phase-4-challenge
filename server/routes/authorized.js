@@ -11,15 +11,13 @@ router.post('/add/review/:albumID', (req, res, next) => {
   }).catch(next)
 })
 
-router.get('/delete/:reviewID', (req, res, next) => {
+router.delete('/delete/:reviewID', (req, res, next) => {
  getReviewsTable.toDelete(req.params.reviewID)
  .then( deletedReview => {
     if(deletedReview) {
     res.redirect(`/users/${req.user.id}`)
-    res.redirect(`/albums/1`)
     }
-  })
-  .catch(next)
+  }).catch(next)
 })
 
 router.get('/sign-out', (req, res) => { 

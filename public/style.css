@@ -7,7 +7,7 @@ a:link {
 }
 
 a:hover {
-  color: gray;
+  color: lightgray;
 }
 
 li {
@@ -15,152 +15,224 @@ li {
   display: inline;
 }
 
-body {
+html {
+  background-color: gray;
   text-align: center;
 }
 
-.add-review {
-  display: none;
+body {
+  border: solid;
+  background-color: white;
+  text-align: center;
+  position: relative;
+  width: 80%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .navbar {
+  position: absolute;
   width: 100%;
   height: 50px;
-  float: left;
 }
 
 .navbar a img {
-  width: 60px;
-
-}
-.navbar span {
-  position: relative;
-  bottom: 15px;
-  right: 35px;
-}
-
-.nav-homepage-link {
-  position: relative;
-  bottom: 10px;
   float: left;
-  padding: 10px;
-  font-size: 45px;
+  width: 50px;
+}
+
+.navbar a span {
+  float: left;
+  font-size: 30px;
+  text-align: center;
+  position: relative;
+  top: 10px;
+  right: 30px;
 }
 
 .nav-sign {
-  position: relative;
-  text-align: center;
-  bottom: 10px;
-  height: 10px;
   float: right;
-  padding: 5px;
-  font-size: 19.5px;
+  padding: 10px;
 }
 
-.list-albums {
-  width: 50%;
-  float: left;
-  text-align: justify;
-  overflow-y: hidden;
-}
-
-.list-reviews {
-  text-align: center;
+.homepage {
   position: relative;
-  left: 150px;
-  bottom: 400px;
   overflow-x: hidden;
+}
+
+.homepage-image {
+  width: 275px;
+  position: relative;
+  top: 50px;
+}
+
+.homepage-info {
+  position: relative;
+  display: flex;
+}
+.homepage-albums {
+  padding: 10px;
+  width: 30%;
+  text-align: justify;
   overflow-y: scroll;
-  width: 80%;
+  height: 800px;
+}
+
+.homepage-reviews {
   padding: 10px;
-  margin: 10px;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 800px;
 }
 
-.list-reviews h4 {
-  position: relative;
-  right: 10px;
-  width: 100px;
-  padding: 10px;
-  text-align: center;
+.homepage-reviews h2 {
+  text-align: left;
 }
 
-.list-reviews h6 {
-  position: relative;
-  bottom: 45px;
-  left: 150px;
+.homepage-reviews h4 {
+  text-align: left;
 }
 
-.list-reviews p {
-  position: relative;
-  bottom: 50px;
+.homepage-reviews p {
   text-align: justify;
 }
 
-.list-reviews h5 {
-  position: relative;
-  bottom: 50px;
-  left: 100px;
+.homepage-reviews h6 {
+  text-align: right;
+}
+.homepage-reviews h5 {
+  text-align: right;
 }
 
-.records-reviews {
-  width: 100%;
+.albums-page {
+  padding: 10px;
+  position: relative;
+  top: 50px;
+  height: 800px;
 }
 
 .albums-page-reviews {
-  overflow-x: hidden;
-  overflow-y: scroll;
-  border: solid;
+  text-align: center;
+  padding: 50px;
   position: relative;
-  left: 50px;
-  width: 90%;
-  height: 100%;
-  padding: 10px;
-  margin: 10px;
+  height: 550px;
+  overflow-y: scroll
 }
 
-.albums-page-reviews h3{
-  position: relative;
-  right: 150px;
+.albums-page-reviews h2 {
+  text-align: left;
 }
 
-.albums-page-reviews h6{
-  position: relative;
-  left: 150px;
-  bottom: 45px;
+.albums-page-reviews h3 {
+  text-align: left
 }
 
-.albums-page-reviews p{
-  position: relative;
-  bottom: 50px;
+.albums-page-reviews h6 {
+  text-align: right;
+}
+
+.albums-page-reviews p {
   text-align: justify;
-  padding: 10px
 }
 
-.albums-page-reviews h5{
+.albums-page-reviews h5 {
+  text-align: right;
+}
+
+.review-form-buttons {
+  width: 80px;
+  text-align: center;
   position: relative;
-  bottom: 50px;
-  left: 100px;
+  left: 250px;
+}
+
+.add-review-form {
+  position: relative;
+  left: 75px;
+  text-align: center;
+  width: 400px;
+}
+
+.add-review-form textarea {
+  resize: none;
+  position: relative;
+  width: 100%;
+  height: 500px;
 }
 
 .sign-in-page, .sign-up-page {
+  position: relative;
+  top: 50px;
+  height: 800px;
+}
+
+.profile-page {
+  position: relative;
+  top: 50px;
+  height: 800px;
+  display: flex;
+  overflow: hidden;
+}
+
+.profile-info {
   text-align: center;
+  position: fixed;
+  width: 80%;
+  height: 17%;
+  display: flex;
+  padding: 10px;
+}
+
+.profile-info img {
+  border: solid;
+  position: relative;
+}
+
+.profile-info h2 {
+  position: relative;
+  left: 30px;
+  height: 20px;
+}
+.profile-info h4 {
+  position: relative;
+  right: 15px;
+  top: 50px;
+  height: 20px;
+}
+
+.profile-info h5 {
   position: relative;
   top: 100px;
+  right: 140px;
+  height: 20px;
 }
 
-.sign-in-page div {
+.profile-page-albums, .profile-page-reviews{
   padding: 10px;
+  position: relative;
+  top: 250px;
+  height: 450px;
+  overflow-y: scroll;
 }
 
-.sign-up-page div{
-  padding: 10px;
+.profile-page-albums {
+  width: 20%;
 }
 
+.profile-page-reviews {
+  width: 80%;
+  text-align: left;
+}
 
+.profile-page-reviews h6 {
+  text-align: right;
+}
 
-
-
-
-
-
-
+.profile-page-reviews img {
+  float: right;
+}

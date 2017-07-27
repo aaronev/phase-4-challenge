@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+  <h2 class albums page>Reviews</h2>
+
+    <% reviews.forEach(function(review) { %>
+      <h3><%= albums.title%></h3>
+      <h6><%= review.timestamp%></h6>
+      <p><%= review.review %></p>
+      <% users.forEach(function(user) { %>
+        <% if (user.id === review.user_id) {%>
+          <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
+        <% } %>
+      <% }) %>
+    <% }) %>
+    
+  </div>
+
+
+      <div class="homepage-reviews">
+        <h2>Recent Reviews</h2>
+        <% reviews.forEach(function(review) { %>
+          <% albums.forEach(function(album) { %>
+            <% if (album.id === review.album_id) { %>
+              <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
+            <% } %>
+          <% }) %>
+          
+          <h6><%= review.timestamp%></h6>
+          <p><%= review.review %></p>
+          
+          <% users.forEach(function(user) { %>
+            <% if (user.id === review.user_id) {%>
+              <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
+            <% } %>
+          <% }) %>  
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+
+
+
+ <div class="profile-page-reviews">
+        <h2>Reviews</h2>
+        <% reviews.forEach(function(review) { %>
+          <div>
+           <% albums.forEach(function(album) { %>
+              <% if (album.id === review.album_id) { %>
+                <h4><a href="/albums/<%= review.album_id %>"><%= album.title %></a></h4>
+                <h6><%= review.timestamp%></h6>
+                <% if (userSess) { %>
+                  <% if (userSess.id === review.user_id) { %>
+                    <img onclick="confirmDelete(<%=review.id%>)" width=30px style="cursor: pointer" src="/img/trash.png"/>
+                  <% } %>
+                <% } %>
+                <span><%= album.artist %></span>
+              <% } %>
+            <% }) %>
+          </div>
+          <p><%= review.review%></p>
+        <% }) %>
+      </div>
+    </div>
+  </div>

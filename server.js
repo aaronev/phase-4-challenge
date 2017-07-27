@@ -3,7 +3,6 @@ const passport = require('./config/authentication')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
-const routes = require('./server/routes')
 const app = express()
 
 require('ejs')
@@ -21,7 +20,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/', routes)
+app.use('/', require('./server/routes'))
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

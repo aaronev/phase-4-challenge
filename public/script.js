@@ -1,11 +1,12 @@
 var DOM = {
   cancelAddReview: document.querySelector(".close-review-button"),
   openAddReview: document.querySelector(".open-review-button"),
-  addReviewForm: document.querySelector(".add-review")
+  addReviewForm: document.querySelector(".add-review"),
 }
 
 window.onload = function() {
   DOM.cancelAddReview.style.display = "none"
+  DOM.addReviewForm.style.display = "none"
 }
 
 function showAddForm() {
@@ -22,8 +23,9 @@ function hideAddForm() {
 
 function confirmDelete(reviewID) {
   if (confirm("Are you sure you want to delete?")) {
-    var deleteRoute = document.querySelector(".deleteRoute"+reviewID)
-    var link ="/authorized/delete/"+reviewID
-    return deleteRoute.href = link
+    fetch("/authorized/delete/"+reviewID, {
+      method: 'DELETE', 
+      credentials: 'include'
+    }).then(location.reload())
   }
 }

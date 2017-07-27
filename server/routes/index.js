@@ -4,9 +4,7 @@ const getReviewsTable = require('../../domain/reviews')
 const getUsersTable = require('../../domain/users')
 
 router.get('/', (req, res, next) => {
-  req.user
-  ? res.redirect(`/users/${req.user.id}`)
-  : getAlbumsTable.all()
+  getAlbumsTable.all()
   .then( albums => {
     getUsersTable.all()
     .then( users => {

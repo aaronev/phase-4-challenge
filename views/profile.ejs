@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 
 <% include ./header %>
-<body>
-  
-  <h2><%= users.name %></h2>
-  <img width="150" height="150" src=<%= users.image %>>
-  <h4> Email: <%= users.email %> </h4>
-  <h5> Joined:  <%= users.timestamp %> </h5>
+  <div class="profile-page">
 
-  <h2>Albums</h2>
-
-  <% albums.forEach(function(album) { %>
-    <div>
-      <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-      <span><%= album.artist %></span>
+    <div class="profile-info">
+      <img width="150" height="150" src=<%= users.image %> />
+      <h2 ><%= users.name %></h2>
+      <h4> Email: <%= users.email %> </h4>
+      <h5> Joined:  <%= users.timestamp %> </h5>
     </div>
-  <% }) %>
 
-  <h2>Reviews</h2>
+    <div style="display: flex">
+      <div class="profile-page-albums">
+        <h2>Albums</h2>
+        <% albums.forEach(function(album) { %>
+          <div>
+            <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
+            <span><%= album.artist %></span>
+          </div>
+        <% }) %>
+      </div>
 
-  <% reviews.forEach(function(review) { %>
-
-    <div>
-     <% albums.forEach(function(album) { %>
-        <% if (album.id === review.album_id) { %>
-          <h4><a href="/albums/<%= review.album_id %>"><%= album.title %></a></h4>
-          <span><%= album.artist %></span>
-        <% } %>
-      <% }) %>
+      <div class="profile-page-reviews">
+        <h2>Reviews</h2>
+        <% reviews.forEach(function(review) { %>
+          <div>
+           <% albums.forEach(function(album) { %>
+              <% if (album.id === review.album_id) { %>
+                <h4><a href="/albums/<%= review.album_id %>"><%= album.title %></a></h4>
+                <h6><%= review.timestamp%></h6>
+                <% if (userSess) { %>
+                  <% if (userSess.id === review.user_id) { %>
+                    <img onclick="confirmDelete(<%=review.id%>)" width=30px style="cursor: pointer" src="/img/trash.png"/>
+                  <% } %>
+                <% } %>
+                <span><%= album.artist %></span>
+              <% } %>
+            <% }) %>
+          </div>
+          <p><%= review.review%></p>
+        <% }) %>
+      </div>
     </div>
-    
-    <h3><%= review.review%></h3>
-    
-    <% if (userSess) { %>
-      <% if (userSess.id === review.user_id) { %>
-        <a class="deleteRoute<%=review.id%>" onclick="confirmDelete(<%=review.id%>)">
-          <img width=30px style="cursor: pointer" src="/img/trash.png"/>
-        </a>
-      <% } %>
-    <% } %>
-  <% }) %>
-  
-</body>
-
+  </div>
 <% include ./footer %>
