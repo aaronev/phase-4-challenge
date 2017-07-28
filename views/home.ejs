@@ -3,8 +3,11 @@
 <% include ./partials/header %>
 
   <div class="hompage">
-
-    <a href="/">
+    <% if (userSess) { %>
+      <a href="/users/<%=userSess.id%>">
+    <% } else {%>
+      <a href="/">
+    <% } %>
       <img class="homepage-image" src="/img/colorful-vinyl.jpg"/>
     </a>
 

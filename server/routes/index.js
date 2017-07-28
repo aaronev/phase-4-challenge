@@ -21,7 +21,7 @@ router.get('/users/:id', (req, res, next) => {
   .then( albums => {
     getUsersTable.byID(req.params.id)
     .then( users => {
-      if (!users) res.redirect('/')
+      if (!users[0]) res.render('./errors/not-found')
       getReviewsTable.byUserID(req.params.id)
       .then( reviews => {
         res.render('profile', {
@@ -35,7 +35,7 @@ router.get('/users/:id', (req, res, next) => {
 router.get('/albums/:id', (req, res, next) => {
   getAlbumsTable.byID(req.params.id)
   .then( albums => {
-    if (!albums) res.redirect('/')
+    if (!albums[0]) res.render('./errors/not-found')
     getUsersTable.all()
     .then( users => {
       getReviewsTable.byAlbumID(req.params.id)

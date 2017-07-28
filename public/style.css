@@ -33,6 +33,9 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+.red {
+  color: red;
+}
 .container {
   position: relative;
   display: flex;
@@ -200,4 +203,10 @@ body {
 
 .profile-page-reviews {
   width: 80%;
+}
+
+.not-found-page {
+  position: relative;
+  top: 50px;
+  height: 800px;
 }
