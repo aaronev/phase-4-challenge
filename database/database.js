@@ -9,7 +9,7 @@ module.exports = class DatabaseGenericTableFunctions {
     this.columns = columnsForAdding
   }
 
-  generate_$Num() {
+  generate_$Nums() {
     let col = []
     for (let i = 1; i <= this.columns.length; i++) {
       col.push('$'+ i)
@@ -23,7 +23,7 @@ module.exports = class DatabaseGenericTableFunctions {
         ${this.table} 
         (${this.columns}) 
       VALUES 
-        (${this.generate_$Num()})
+        (${this.generate_$Nums()})
       RETURNING 
         *`, values
     )

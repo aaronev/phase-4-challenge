@@ -2,7 +2,7 @@
 
 ## ADDING Features
 
-1. Add the confirm in the vanilla javascript
+1. None
 
 A community for record enthusiasts to review their favorite albums.
 

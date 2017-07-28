@@ -26,7 +26,7 @@ function hideAddForm() {
 
 function confirmDelete(reviewID) {
   if (confirm("Are you sure you want to delete?")) {
-    fetch("/authorized/delete/"+reviewID, {
+    fetch("/reviews/"+reviewID, {
       method: "DELETE", 
       credentials: "include"
     }).then(location.reload())
