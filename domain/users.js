@@ -17,7 +17,7 @@ const all = () =>
 
 const byID = userID => 
  UsersTable.getRowsByColumn('id', userID)
-  .then(users => users[0])
+  .then(users => users)
   .catch(error => error)
 
 const byEmail = value => 

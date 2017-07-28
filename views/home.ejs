@@ -8,33 +8,20 @@
       <img class="homepage-image" src="/img/colorful-vinyl.jpg"/>
     </a>
 
-    <div class="homepage-info">
+    <div class="container">
+      
       <div class="homepage-albums">
         <h2>Records</h2>
         <% include ./lists/albums %>
       </div>
-
       
       <div class="homepage-reviews">
         <h2>Recent Reviews</h2>
-        <% reviews.forEach(function(review) { %>
-          <% albums.forEach(function(album) { %>
-            <% if (album.id === review.album_id) { %>
-              <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-            <% } %>
-          <% }) %>
-          
-          <h6><%= review.timestamp%></h6>
-          <p><%= review.review %></p>
-          
-          <% users.forEach(function(user) { %>
-            <% if (user.id === review.user_id) {%>
-              <h5><a href="/users/<%= review.user_id %>">By: <%= user.name %></a></h5>
-            <% } %>
-          <% }) %>  
-        <% }) %>
+        <% include ./lists/reviews %>
       </div>
+
     </div>
+  
   </div>
 
 <% include ./partials/footer %>

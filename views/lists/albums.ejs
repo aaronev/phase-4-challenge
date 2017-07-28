@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 
-<% albums.forEach(function(album) { %>
-  <div>
-    <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-    <span><%= album.artist %></span>
-  </div>
-<% }) %>
+<div class="list-albums">
+  <% albums.forEach(function(album) { %>
+
+    <div>
+      <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
+      <span><%= album.artist %></span>
+    </div>
+
+  <% }) %>
+</div>

@@ -1,46 +1,31 @@
 <!DOCTYPE html>
 
-<% include ./header %>
+<% include ./partials/header %>
+
   <div class="profile-page">
 
     <div class="profile-info">
-      <img width="150" height="150" src=<%= users.image %> />
-      <h2 ><%= users.name %></h2>
-      <h4> Email: <%= users.email %> </h4>
-      <h5> Joined:  <%= users.timestamp %> </h5>
+      <% users.forEach(function(user) { %>
+        <img class="float-right border" width="150" height="150" src=<%= user.image %> />
+        <div class="float-right text-left">
+          <h2 ><%= user.name %></h2>
+          <h4> Email: <%= user.email %> </h4>
+          <h5> Joined:  <%= user.timestamp %> </h5>
+        </div>
+      <% }) %>
     </div>
 
-    <div style="display: flex">
+    <div class="container">
       <div class="profile-page-albums">
         <h2>Albums</h2>
-        <% albums.forEach(function(album) { %>
-          <div>
-            <h4><a href="/albums/<%= album.id %>"><%= album.title %></a></h4>
-            <span><%= album.artist %></span>
-          </div>
-        <% }) %>
+        <% include ./lists/albums %>
       </div>
 
       <div class="profile-page-reviews">
         <h2>Reviews</h2>
-        <% reviews.forEach(function(review) { %>
-          <div>
-           <% albums.forEach(function(album) { %>
-              <% if (album.id === review.album_id) { %>
-                <h4><a href="/albums/<%= review.album_id %>"><%= album.title %></a></h4>
-                <h6><%= review.timestamp%></h6>
-                <% if (userSess) { %>
-                  <% if (userSess.id === review.user_id) { %>
-                    <img onclick="confirmDelete(<%=review.id%>)" width=30px style="cursor: pointer" src="/img/trash.png"/>
-                  <% } %>
-                <% } %>
-                <span><%= album.artist %></span>
-              <% } %>
-            <% }) %>
-          </div>
-          <p><%= review.review%></p>
-        <% }) %>
+        <% include ./lists/reviews %>
       </div>
     </div>
   </div>
-<% include ./footer %>
+
+<% include ./partials/footer %>

@@ -8,7 +8,7 @@ const all = () =>
 
 const byID = (albumID) =>
   AlbumsTable.getRowsByColumn('id', albumID)
-  .then(album => album[0])
+  .then(albums => albums)
   .catch(error => error)
 
 module.exports = {

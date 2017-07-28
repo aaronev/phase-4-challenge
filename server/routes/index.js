@@ -56,7 +56,7 @@ router.use((req, res, next) => {
 }) 
 
 router.use('/authorized', require('./authorized'))
-router.use((req, res) => { res.render('not-found') })
+router.use((req, res) => { res.render('./errors/not-found') })
 
 
 module.exports = router
